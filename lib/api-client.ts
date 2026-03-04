@@ -57,6 +57,8 @@ export interface BondItem {
   tea?: number
   tem?: number
   tipo?: string
+  se?: number
+  variacion?: number | null
 }
 
 export interface BondsUSD {
@@ -95,7 +97,10 @@ export interface CaucionEntry {
   ev?: number
 }
 
-export type CaucionData = Record<string, CaucionEntry>
+export interface CaucionData {
+  pesos?: Record<string, CaucionEntry>
+  usd?: Record<string, CaucionEntry>
+}
 
 export interface EquityItem {
   ticker: string

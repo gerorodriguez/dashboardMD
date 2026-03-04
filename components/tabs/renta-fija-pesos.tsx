@@ -22,13 +22,14 @@ const lecapColumns: ColumnDef<LecapBoncap>[] = [
 ]
 
 const cerColumns: ColumnDef<BonoCER>[] = [
-  { key: "ticker", header: "Ticker", accessor: (r) => r.ticker, clickable: true },
-  { key: "tipo", header: "Tipo", accessor: (r) => r.tipo },
-  { key: "vto", header: "Vto", accessor: (r) => r.vto },
-  { key: "dtm", header: "DTM", accessor: (r) => r.dtm, align: "right", mono: true },
-  { key: "precio", header: "Precio", accessor: (r) => r.precio, align: "right", mono: true },
-  { key: "tir", header: "TIR", accessor: (r) => r.tir, align: "right", mono: true, highlighted: (r) => r.tirHighlighted ?? false },
-  { key: "dm", header: "DM", accessor: (r) => r.dm, align: "right", mono: true },
+  { key: "ticker",    header: "Ticker",    accessor: (r) => r.ticker,    clickable: true },
+  { key: "tipo",      header: "Tipo",      accessor: (r) => r.tipo },
+  { key: "vto",       header: "Vto",       accessor: (r) => r.vto },
+  { key: "dtm",       header: "DTM",       accessor: (r) => r.dtm,       align: "right", mono: true },
+  { key: "precio",    header: "Precio",    accessor: (r) => r.precio,    align: "right", mono: true },
+  { key: "variacion", header: "Var%",      accessor: (r) => r.variacion, align: "right", mono: true },
+  { key: "tir",       header: "TIR",       accessor: (r) => r.tir,       align: "right", mono: true, highlighted: (r) => r.tirHighlighted ?? false },
+  { key: "dm",        header: "DM",        accessor: (r) => r.dm,        align: "right", mono: true },
 ]
 
 const futuroColumns: ColumnDef<FuturoDolar>[] = [
@@ -62,6 +63,7 @@ interface RentaFijaPesosProps {
   cerData: BonoCER[]
   futurosData: FuturoDolar[]
   caucionData: Caucion[]
+  caucionUSDData: Caucion[]
   cerIndex: string
   dolarSpot: string
 }
@@ -72,6 +74,7 @@ export function RentaFijaPesosTab({
   cerData,
   futurosData,
   caucionData,
+  caucionUSDData,
   cerIndex,
   dolarSpot,
 }: RentaFijaPesosProps) {
@@ -136,9 +139,8 @@ export function RentaFijaPesosTab({
         />
         <MarketTable
           title="Cauciones USD"
-          subtitle="Próximamente"
           columns={caucionColumns}
-          data={[]}
+          data={caucionUSDData}
           getRowKey={(r) => String(r.plazo)}
         />
       </div>

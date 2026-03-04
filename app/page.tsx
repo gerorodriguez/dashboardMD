@@ -12,6 +12,7 @@ import {
   mapBonosCER,
   mapFuturosDolar,
   mapCauciones,
+  mapCaucionesUSD,
   mapSoberanos,
   mapBopreales,
   mapONs,
@@ -54,7 +55,8 @@ export default function Dashboard() {
   const boncapData    = mapLecapBoncap(data.bonds_pesos?.boncap ?? [])
   const cerData       = mapBonosCER(data.bonds_pesos?.cer       ?? [])
   const futurosData   = mapFuturosDolar(data.futures?.contracts  ?? [])
-  const caucionData   = mapCauciones(data.caucion               ?? {})
+  const caucionData    = mapCauciones(data.caucion               ?? {})
+  const caucionUSDData = mapCaucionesUSD(data.caucion            ?? {})
   const soberanosData = mapSoberanos(data.bonds_usd?.sovereigns  ?? [])
   const boprealesData = mapBopreales(data.bonds_usd?.bopreales   ?? [])
   const onArgData     = mapONs(data.bonds_usd?.on_arg            ?? [])
@@ -107,6 +109,7 @@ export default function Dashboard() {
               cerData={cerData}
               futurosData={futurosData}
               caucionData={caucionData}
+              caucionUSDData={caucionUSDData}
               cerIndex={headerData.cerIndex}
               dolarSpot={headerData.dolarSpot}
             />

@@ -78,23 +78,25 @@ export function mapLecapBoncap(items: BondItem[]): LecapBoncap[] {
     tipo:   (b.tipo as 'LECAP' | 'BONCAP') ?? 'LECAP',
     vto:    dateFmt(b.vto),
     dtm:    b.dtm ?? dtmFromIso(b.vto),
-    precio: num(b.precio, 4),
-    vf:     num(b.px_finish ?? 100, 2),
-    tna:    pct(b.tna),
-    tea:    pct(b.tea),
-    tem:    pct(b.tem),
+    precio:    num(b.precio, 4),
+    vf:        num(b.se ?? b.px_finish ?? 100, 2),
+    variacion: b.variacion != null ? `${b.variacion > 0 ? '+' : ''}${b.variacion.toFixed(2)}%` : '–',
+    tna:       pct(b.tna),
+    tea:       pct(b.tea),
+    tem:       pct(b.tem),
   }))
 }
 
 export function mapBonosCER(items: BondItem[]): BonoCER[] {
   return items.map((b) => ({
-    ticker: b.ticker,
-    tipo:   'CER',
-    vto:    dateFmt(b.vto),
-    dtm:    b.dtm ?? dtmFromIso(b.vto),
-    precio: ars(b.precio),
-    tir:    pct(b.tir),
-    dm:     b.mac_dur != null ? `${b.mac_dur.toFixed(2)}y` : '–',
+    ticker:    b.ticker,
+    tipo:      b.tipo ?? 'CER',
+    vto:       dateFmt(b.vto),
+    dtm:       b.dtm ?? dtmFromIso(b.vto),
+    precio:    ars(b.precio),
+    variacion: b.variacion != null ? `${b.variacion > 0 ? '+' : ''}${b.variacion.toFixed(2)}%` : '–',
+    tir:       pct(b.tir),
+    dm:        b.mac_dur != null ? `${b.mac_dur.toFixed(2)}y` : '–',
   }))
 }
 
@@ -111,19 +113,28 @@ export function mapFuturosDolar(contracts: FutureContract[]): FuturoDolar[] {
 }
 
 export function mapCauciones(caucion: CaucionData): Caucion[] {
-  const sym1d = 'MERV - XMEV - PESOS - 1D'
-  const sym3d = 'MERV - XMEV - PESOS - 3D'
+  const pesos = caucion?.pesos ?? {}
   const rows: Caucion[] = []
-
-  const e1d = caucion?.[sym1d]
-  const e3d = caucion?.[sym3d]
-
-  if (e1d?.bid != null) {
-    rows.push({ plazo: 1, tna: pct(e1d.bid / 100), monto: vol(e1d.ev) })
+  for (const [sym, entry] of Object.entries(pesos)) {
+    if (entry?.bid == null) continue
+    const plazoMatch = sym.match(/- (\d+)D$/)
+    const plazo = plazoMatch ? parseInt(plazoMatch[1]) : 0
+    rows.push({ plazo, tna: pct(entry.bid / 100), monto: vol(entry.ev) })
   }
-  if (e3d?.bid != null) {
-    rows.push({ plazo: 3, tna: pct(e3d.bid / 100), monto: vol(e3d.ev) })
+  rows.sort((a, b) => a.plazo - b.plazo)
+  return rows
+}
+
+export function mapCaucionesUSD(caucion: CaucionData): Caucion[] {
+  const usd = caucion?.usd ?? {}
+  const rows: Caucion[] = []
+  for (const [sym, entry] of Object.entries(usd)) {
+    if (entry?.bid == null) continue
+    const plazoMatch = sym.match(/- (\d+)D$/)
+    const plazo = plazoMatch ? parseInt(plazoMatch[1]) : 0
+    rows.push({ plazo, tna: pct(entry.bid / 100), monto: vol(entry.ev) })
   }
+  rows.sort((a, b) => a.plazo - b.plazo)
   return rows
 }
 
