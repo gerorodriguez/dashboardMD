@@ -5,6 +5,8 @@ import { MarketHeader } from "@/components/market-header"
 import { RentaFijaPesosTab } from "@/components/tabs/renta-fija-pesos"
 import { RentaFijaUSDTab } from "@/components/tabs/renta-fija-usd"
 import { RentaVariableTab } from "@/components/tabs/renta-variable"
+import { ObligacionesNegociablesTab } from "@/components/tabs/obligaciones-negociables"
+import { NoticiasTab } from "@/components/tabs/noticias"
 import { useMarketData } from "@/hooks/use-market-data"
 import {
   mapMarketHeader,
@@ -19,8 +21,9 @@ import {
   mapAcciones,
   mapCedears,
   mapETFs,
+  mapNews,
 } from "@/lib/data-mappers"
-import { Banknote, DollarSign, BarChart3, Loader2, WifiOff } from "lucide-react"
+import { Banknote, DollarSign, BarChart3, Building2, Newspaper, Loader2, WifiOff } from "lucide-react"
 
 export default function Dashboard() {
   const { data, status, error, lastUpdated } = useMarketData()
@@ -64,6 +67,7 @@ export default function Dashboard() {
   const accionesData  = mapAcciones(data.equities?.acciones      ?? [])
   const cedearsData   = mapCedears(data.equities?.cedears        ?? [])
   const etfsData      = mapETFs(data.equities?.etfs              ?? [])
+  const newsData      = mapNews(data.news)
 
   return (
     <div className="min-h-screen bg-background">
@@ -100,6 +104,21 @@ export default function Dashboard() {
               <span className="hidden sm:inline">Renta Variable</span>
               <span className="sm:hidden">RV</span>
             </TabsTrigger>
+            <TabsTrigger
+              value="obligaciones-negociables"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none rounded-md text-muted-foreground"
+            >
+              <Building2 className="size-4" />
+              <span className="hidden sm:inline">Oblig. Negociables</span>
+              <span className="sm:hidden">ONs</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="noticias"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none rounded-md text-muted-foreground"
+            >
+              <Newspaper className="size-4" />
+              <span>Noticias</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="renta-fija-pesos">
@@ -119,8 +138,6 @@ export default function Dashboard() {
             <RentaFijaUSDTab
               soberanosData={soberanosData}
               boprealesData={boprealesData}
-              onArgData={onArgData}
-              onNYData={onNYData}
             />
           </TabsContent>
 
@@ -130,6 +147,17 @@ export default function Dashboard() {
               cedearsData={cedearsData}
               etfsData={etfsData}
             />
+          </TabsContent>
+
+          <TabsContent value="obligaciones-negociables">
+            <ObligacionesNegociablesTab
+              onNYData={onNYData}
+              onArgData={onArgData}
+            />
+          </TabsContent>
+
+          <TabsContent value="noticias">
+            <NoticiasTab newsData={newsData} />
           </TabsContent>
         </Tabs>
 

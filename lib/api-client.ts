@@ -23,6 +23,12 @@ export async function fetchSnapshot(): Promise<SnapshotResponse> {
 
 // ─── Tipos del backend ───────────────────────────────────────────────────────
 
+export interface NewsItem {
+  title:  string
+  url:    string | null
+  dt_str: string
+}
+
 export interface SnapshotResponse {
   seq: number
   bonds_usd: BondsUSD
@@ -31,6 +37,7 @@ export interface SnapshotResponse {
   futures: FuturesData
   caucion: CaucionData
   fx_rates: FxRates
+  news?: Record<string, NewsItem[]>
 }
 
 export interface FxRates {

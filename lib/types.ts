@@ -131,3 +131,18 @@ export interface MarketData {
   cerIndex: string
   dolarSpot: string
 }
+
+// News
+export interface NewsItem {
+  title: string
+  url:   string | null
+  dt_str: string
+}
+
+export interface NewsData {
+  Equity: NewsItem[]
+  Rates:  NewsItem[]
+  Macro:  NewsItem[]
+  Energy: NewsItem[]
+  Crypto: NewsItem[]
+}

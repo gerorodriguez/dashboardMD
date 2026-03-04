@@ -13,6 +13,7 @@ import type {
   LecapBoncap, BonoCER, FuturoDolar, Caucion,
   SoberanoUSD, Bopreal, ObligacionNegociable,
   AccionArgentina, Cedear, ETFArgentino,
+  NewsItem, NewsData,
 } from './types'
 
 // ─── Formateadores ───────────────────────────────────────────────────────────
@@ -210,4 +211,20 @@ export function mapETFs(items: EquityItem[]): ETFArgentino[] {
     volumen:           vol(e.ev),
     patrimonio:        '–',
   }))
+}
+
+export function mapNews(raw: Record<string, any[]> | undefined): NewsData {
+  const seg = (key: string): NewsItem[] =>
+    (raw?.[key] ?? []).map((n: any) => ({
+      title:  n.title  ?? '',
+      url:    n.url    ?? null,
+      dt_str: n.dt_str ?? '',
+    }))
+  return {
+    Equity: seg('Equity'),
+    Rates:  seg('Rates'),
+    Macro:  seg('Macro'),
+    Energy: seg('Energy'),
+    Crypto: seg('Crypto'),
+  }
 }
