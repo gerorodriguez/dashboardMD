@@ -7,6 +7,7 @@ import { RentaFijaUSDTab } from "@/components/tabs/renta-fija-usd"
 import { RentaVariableTab } from "@/components/tabs/renta-variable"
 import { ObligacionesNegociablesTab } from "@/components/tabs/obligaciones-negociables"
 import { NoticiasTab } from "@/components/tabs/noticias"
+import { CalendarioTab } from "@/components/tabs/calendario"
 import { useMarketData } from "@/hooks/use-market-data"
 import {
   mapMarketHeader,
@@ -23,7 +24,7 @@ import {
   mapETFs,
   mapNews,
 } from "@/lib/data-mappers"
-import { Banknote, DollarSign, BarChart3, Building2, Newspaper, Loader2, WifiOff } from "lucide-react"
+import { Banknote, DollarSign, BarChart3, Building2, Newspaper, CalendarDays, Loader2, WifiOff } from "lucide-react"
 
 export default function Dashboard() {
   const { data, status, error, lastUpdated } = useMarketData()
@@ -119,6 +120,13 @@ export default function Dashboard() {
               <Newspaper className="size-4" />
               <span>Noticias</span>
             </TabsTrigger>
+            <TabsTrigger
+              value="calendario"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none rounded-md text-muted-foreground"
+            >
+              <CalendarDays className="size-4" />
+              <span>Calendario</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="renta-fija-pesos">
@@ -158,6 +166,10 @@ export default function Dashboard() {
 
           <TabsContent value="noticias">
             <NoticiasTab newsData={newsData} />
+          </TabsContent>
+
+          <TabsContent value="calendario">
+            <CalendarioTab />
           </TabsContent>
         </Tabs>
 

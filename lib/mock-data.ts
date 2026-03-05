@@ -34,17 +34,18 @@ export const marketData: MarketData = {
 }
 
 export const lecapBoncapData: LecapBoncap[] = [
-  { ticker: "S27F6", tipo: "LECAP", vto: "27/02/2026", dtm: 3, precio: "$125.50", vf: "$125.84", tna: "33.06%", tea: "38.56%", tem: "2.76%", teaHighlighted: true },
-  { ticker: "S16M6", tipo: "LECAP", vto: "16/03/2026", dtm: 20, precio: "$102.63", vf: "$104.62", tna: "35.58%", tea: "42.00%", tem: "2.97%", teaHighlighted: true },
-  { ticker: "S17A6", tipo: "LECAP", vto: "17/04/2026", dtm: 52, precio: "$104.74", vf: "$110.13", tna: "35.71%", tea: "42.18%", tem: "2.98%", teaHighlighted: true },
-  { ticker: "S30A6", tipo: "LECAP", vto: "30/04/2026", dtm: 65, precio: "$119.90", vf: "$128.35", tna: "38.86%", tea: "46.59%", tem: "3.24%", teaHighlighted: true },
-  { ticker: "S29Y6", tipo: "LECAP", vto: "29/05/2026", dtm: 94, precio: "$121.15", vf: "$132.04", tna: "33.90%", tea: "39.70%", tem: "2.83%", teaHighlighted: true },
-  { ticker: "T30J6", tipo: "BONCAP", vto: "30/06/2026", dtm: 126, precio: "$129.50", vf: "$144.90", tna: "32.99%", tea: "38.46%", tem: "2.75%", teaHighlighted: true },
-  { ticker: "S31L6", tipo: "LECAP", vto: "31/07/2026", dtm: 157, precio: "$102.60", vf: "$117.68", tna: "32.30%", tea: "37.54%", tem: "2.69%", teaHighlighted: true },
-  { ticker: "S31G6", tipo: "LECAP", vto: "31/08/2026", dtm: 188, precio: "$108.45", vf: "$127.06", tna: "31.15%", tea: "36.01%", tem: "2.60%", teaHighlighted: true },
-  { ticker: "S30O6", tipo: "LECAP", vto: "30/10/2026", dtm: 248, precio: "$110.40", vf: "$135.28", tna: "30.29%", tea: "34.86%", tem: "2.52%", teaHighlighted: true },
-  { ticker: "S30N6", tipo: "LECAP", vto: "30/11/2026", dtm: 279, precio: "$102.94", vf: "$131.36", tna: "32.32%", tea: "37.56%", tem: "2.69%", teaHighlighted: true },
-  { ticker: "T15E7", tipo: "BONCAP", vto: "15/01/2027", dtm: 325, precio: "$121.90", vf: "$161.21", tna: "31.81%", tea: "36.88%", tem: "2.65%", teaHighlighted: true },
+  { ticker: "S16M6", tipo: "LECAP",  vto: "16/03/2026", dtm: 11,  precio: "$102.63", vf: "$104.62",  resultado: "1.94%",  tna: "35.58%", tea: "42.00%", tem: "2.97%" },
+  { ticker: "S17A6", tipo: "LECAP",  vto: "17/04/2026", dtm: 43,  precio: "$104.74", vf: "$110.13",  resultado: "5.15%",  tna: "35.71%", tea: "42.18%", tem: "2.98%" },
+  { ticker: "S30A6", tipo: "LECAP",  vto: "30/04/2026", dtm: 56,  precio: "$119.90", vf: "$127.49",  resultado: "7.05%",  tna: "38.86%", tea: "46.59%", tem: "3.24%" },
+  { ticker: "S29Y6", tipo: "LECAP",  vto: "29/05/2026", dtm: 85,  precio: "$121.15", vf: "$132.04",  resultado: "8.99%",  tna: "33.90%", tea: "39.70%", tem: "2.83%" },
+  { ticker: "S31L6", tipo: "LECAP",  vto: "31/07/2026", dtm: 148, precio: "$102.60", vf: "$117.68",  resultado: "14.70%", tna: "32.30%", tea: "37.54%", tem: "2.69%" },
+  { ticker: "S31G6", tipo: "LECAP",  vto: "31/08/2026", dtm: 179, precio: "$108.45", vf: "$127.06",  resultado: "17.16%", tna: "31.15%", tea: "36.01%", tem: "2.60%" },
+  { ticker: "S30O6", tipo: "LECAP",  vto: "30/10/2026", dtm: 239, precio: "$110.40", vf: "$135.27",  resultado: "22.54%", tna: "30.29%", tea: "34.86%", tem: "2.52%" },
+  { ticker: "S30N6", tipo: "LECAP",  vto: "30/11/2026", dtm: 270, precio: "$102.94", vf: "$129.88",  resultado: "27.14%", tna: "32.32%", tea: "37.56%", tem: "2.69%" },
+  { ticker: "T30J6", tipo: "BONCAP", vto: "30/06/2026", dtm: 117, precio: "$129.50", vf: "$144.87",  resultado: "11.87%", tna: "32.99%", tea: "38.46%", tem: "2.75%" },
+  { ticker: "T15E7", tipo: "BONCAP", vto: "15/01/2027", dtm: 316, precio: "$121.90", vf: "$161.11",  resultado: "32.17%", tna: "31.81%", tea: "36.88%", tem: "2.65%" },
+  { ticker: "T30A7", tipo: "BONCAP", vto: "30/04/2027", dtm: 421, precio: "$112.60", vf: "$157.33",  resultado: "39.72%", tna: "29.45%", tea: "33.77%", tem: "2.49%" },
+  { ticker: "T30J7", tipo: "BONCAP", vto: "30/06/2027", dtm: 482, precio: "$108.75", vf: "$156.33",  resultado: "43.75%", tna: "27.87%", tea: "31.72%", tem: "2.36%" },
 ]
 
 export const bonosCERData: BonoCER[] = [
@@ -75,26 +76,25 @@ export const futurosDolarData: FuturoDolar[] = [
 ]
 
 export const soberanosUSDData: SoberanoUSD[] = [
-  { ticker: "AL29D", precio: "62.19", vto: "09/07/2029", tir: "7.85%", dm: "1.66", tirHighlighted: true },
-  { ticker: "GD29D", precio: "64.05", vto: "09/07/2029", tir: "6.10%", dm: "1.70", tirHighlighted: true },
-  { ticker: "AL30D", precio: "61.29", vto: "10/07/2030", tir: "8.67%", dm: "2.05", tirHighlighted: true },
-  { ticker: "GD30D", precio: "63.44", vto: "10/07/2030", tir: "7.01%", dm: "2.11", tirHighlighted: true },
-  { ticker: "AE38D", precio: "80.57", vto: "09/01/2038", tir: "9.57%", dm: "4.64", tirHighlighted: true },
-  { ticker: "GD38D", precio: "83.23", vto: "09/01/2038", tir: "8.87%", dm: "4.73", tirHighlighted: true },
-  { ticker: "AL35D", precio: "78.45", vto: "10/07/2035", tir: "9.25%", dm: "5.38", tirHighlighted: true },
-  { ticker: "GD35D", precio: "79.79", vto: "10/07/2035", tir: "8.94%", dm: "5.41", tirHighlighted: true },
-  { ticker: "AL41D", precio: "73.03", vto: "09/07/2041", tir: "9.33%", dm: "5.87", tirHighlighted: true },
-  { ticker: "GD41D", precio: "74.40", vto: "09/07/2041", tir: "9.02%", dm: "5.93", tirHighlighted: true },
+  { ticker: "AL29D", vto: "09/07/29", dtm: 1220, precio: "61.530", variacion: "+0.54%", variacionPositiva: true,  ic: "0.1109", paridad: "87.74", tir: "7.85%", dm: "1.66" },
+  { ticker: "GD29D", vto: "09/07/29", dtm: 1220, precio: "63.390", variacion: "+0.30%", variacionPositiva: true,  ic: "0.1109", paridad: "90.40", tir: "6.10%", dm: "1.70" },
+  { ticker: "AL30D", vto: "10/07/30", dtm: 1586, precio: "60.740", variacion: "-0.21%", variacionPositiva: false, ic: "0.0856", paridad: "84.24", tir: "8.67%", dm: "2.05" },
+  { ticker: "GD30D", vto: "10/07/30", dtm: 1586, precio: "63.050", variacion: "+0.08%", variacionPositiva: true,  ic: "0.0856", paridad: "87.45", tir: "7.01%", dm: "2.11" },
+  { ticker: "AL35D", vto: "10/07/35", dtm: 3415, precio: "74.000", variacion: "+0.14%", variacionPositiva: true,  ic: "0.6561", paridad: "73.34", tir: "9.25%", dm: "5.38" },
+  { ticker: "GD35D", vto: "10/07/35", dtm: 3415, precio: "76.500", variacion: "-0.05%", variacionPositiva: false, ic: "0.6561", paridad: "75.84", tir: "8.94%", dm: "5.41" },
+  { ticker: "AE38D", vto: "09/01/38", dtm: 4327, precio: "65.000", variacion: "+0.22%", variacionPositiva: true,  ic: "0.7955", paridad: "64.20", tir: "9.57%", dm: "4.64" },
+  { ticker: "GD38D", vto: "09/01/38", dtm: 4327, precio: "67.000", variacion: "+0.18%", variacionPositiva: true,  ic: "0.7955", paridad: "66.20", tir: "8.87%", dm: "4.73" },
+  { ticker: "AL41D", vto: "09/07/41", dtm: 5604, precio: "64.000", variacion: "–",      variacionPositiva: true,  ic: "0.5578", paridad: "63.44", tir: "9.33%", dm: "5.87" },
+  { ticker: "GD41D", vto: "09/07/41", dtm: 5604, precio: "65.500", variacion: "–",      variacionPositiva: true,  ic: "0.5578", paridad: "64.94", tir: "9.02%", dm: "5.93" },
 ]
 
 export const boprealesData: Bopreal[] = [
-  { ticker: "BPY6D", precio: "70.91", vto: "31/05/2026", tir: "-27.63%", dm: "0.20" },
-  { ticker: "BPD7D", precio: "100.35", vto: "31/10/2027", tir: "6.01%", dm: "1.30", tirHighlighted: true },
-  { ticker: "BPC7D", precio: "100.70", vto: "31/10/2027", tir: "5.74%", dm: "1.30" },
-  { ticker: "BPB7D", precio: "101.75", vto: "31/10/2027", tir: "4.94%", dm: "1.31" },
-  { ticker: "BPA7D", precio: "106.10", vto: "31/10/2027", tir: "1.80%", dm: "1.35" },
-  { ticker: "BPB8D", precio: "89.50", vto: "31/10/2028", tir: "8.01%", dm: "2.38", tirHighlighted: true },
-  { ticker: "BPA8D", precio: "91.50", vto: "31/10/2028", tir: "7.09%", dm: "2.40", tirHighlighted: true },
+  { ticker: "BPA7D", vto: "31/10/27", dtm: 603, precio: "106.100", variacion: "+0.10%", variacionPositiva: true,  ic: "1.7663", paridad: "104.33", tir: "1.84%", dm: "1.35" },
+  { ticker: "BPB7D", vto: "31/10/27", dtm: 603, precio: "101.750", variacion: "-0.05%", variacionPositiva: false, ic: "1.7663", paridad: "99.98",  tir: "5.06%", dm: "1.31" },
+  { ticker: "BPC7D", vto: "31/10/27", dtm: 603, precio: "100.700", variacion: "+0.20%", variacionPositiva: true,  ic: "1.7663", paridad: "98.93",  tir: "5.87%", dm: "1.30" },
+  { ticker: "BPD7D", vto: "31/10/27", dtm: 603, precio: "100.350", variacion: "–",      variacionPositiva: true,  ic: "1.7663", paridad: "98.58",  tir: "6.00%", dm: "1.30" },
+  { ticker: "BPA8D", vto: "31/10/28", dtm: 969, precio: "91.500",  variacion: "+0.33%", variacionPositiva: true,  ic: "1.0716", paridad: "90.43",  tir: "7.17%", dm: "2.40" },
+  { ticker: "BPB8D", vto: "31/10/28", dtm: 969, precio: "89.500",  variacion: "+0.11%", variacionPositiva: true,  ic: "1.0716", paridad: "88.43",  tir: "8.01%", dm: "2.38" },
 ]
 
 export const onLeyArgData: ObligacionNegociable[] = [

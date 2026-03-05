@@ -10,15 +10,15 @@ function parsePrice(str: string): number {
 }
 
 const lecapColumns: ColumnDef<LecapBoncap>[] = [
-  { key: "ticker", header: "Ticker", accessor: (r) => r.ticker, clickable: true },
-  { key: "tipo", header: "Tipo", accessor: (r) => r.tipo },
-  { key: "vto", header: "Vto", accessor: (r) => r.vto },
-  { key: "dtm", header: "DTM", accessor: (r) => r.dtm, align: "right", mono: true },
-  { key: "precio", header: "Precio", accessor: (r) => r.precio, align: "right", mono: true },
-  { key: "vf", header: "Precio Finish", accessor: (r) => r.vf, align: "right", mono: true },
-  { key: "tna", header: "TNA", accessor: (r) => r.tna, align: "right", mono: true },
-  { key: "tea", header: "TEA", accessor: (r) => r.tea, align: "right", mono: true, highlighted: (r) => r.teaHighlighted ?? false },
-  { key: "tem", header: "TEM", accessor: (r) => r.tem, align: "right", mono: true },
+  { key: "ticker",    header: "Ticker",    accessor: (r) => r.ticker,    clickable: true },
+  { key: "vto",       header: "Vto",       accessor: (r) => r.vto },
+  { key: "dtm",       header: "DTM",       accessor: (r) => r.dtm,       align: "right", mono: true },
+  { key: "precio",    header: "Precio",    accessor: (r) => r.precio,    align: "right", mono: true },
+  { key: "vf",        header: "VPV",       accessor: (r) => r.vf,        align: "right", mono: true },
+  { key: "resultado", header: "R directo", accessor: (r) => r.resultado, align: "right", mono: true },
+  { key: "tna",       header: "TNA",       accessor: (r) => r.tna,       align: "right", mono: true },
+  { key: "tea",       header: "TEA",       accessor: (r) => r.tea,       align: "right", mono: true },
+  { key: "tem",       header: "TEM",       accessor: (r) => r.tem,       align: "right", mono: true },
 ]
 
 const cerColumns: ColumnDef<BonoCER>[] = [
@@ -105,7 +105,7 @@ export function RentaFijaPesosTab({
     setCalcOpen(true)
   }, [])
 
-  const allLecapBoncap = [...lecapData, ...boncapData]
+  const allLecapBoncap = [...lecapData, ...boncapData].sort((a, b) => a.dtm - b.dtm)
 
   return (
     <div className="flex flex-col gap-6">

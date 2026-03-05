@@ -17,12 +17,12 @@ export interface LecapBoncap {
   tipo: "LECAP" | "BONCAP"
   vto: string
   dtm: number
-  precio: string
-  vf: string
+  precio: string       // precio de mercado (usado por rate calculator)
+  vf: string           // VPV — Valor a Finish
+  resultado: string    // rendimiento directo: VPV/precio − 1
   tna: string
   tea: string
   tem: string
-  teaHighlighted?: boolean
 }
 
 // Bonos CER (TIR Real)
@@ -52,21 +52,29 @@ export interface FuturoDolar {
 // Soberanos USD
 export interface SoberanoUSD {
   ticker: string
-  precio: string
   vto: string
+  dtm: number
+  precio: string
+  variacion: string
+  variacionPositiva: boolean
+  ic: string       // intereses corridos
+  paridad: string  // precio limpio / valor residual × 100
   tir: string
   dm: string
-  tirHighlighted?: boolean
 }
 
 // Bopreales
 export interface Bopreal {
   ticker: string
-  precio: string
   vto: string
+  dtm: number
+  precio: string
+  variacion: string
+  variacionPositiva: boolean
+  ic: string
+  paridad: string
   tir: string
   dm: string
-  tirHighlighted?: boolean
 }
 
 // Obligaciones Negociables (Corporate Bonds)

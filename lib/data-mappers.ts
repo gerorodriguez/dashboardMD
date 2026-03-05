@@ -74,18 +74,25 @@ export function mapMarketHeader(snap: SnapshotResponse): MarketData {
 }
 
 export function mapLecapBoncap(items: BondItem[]): LecapBoncap[] {
-  return items.map((b) => ({
-    ticker: b.ticker,
-    tipo:   (b.tipo as 'LECAP' | 'BONCAP') ?? 'LECAP',
-    vto:    dateFmt(b.vto),
-    dtm:    b.dtm ?? dtmFromIso(b.vto),
-    precio:    num(b.precio, 4),
-    vf:        num(b.se ?? b.px_finish ?? 100, 2),
-    variacion: b.variacion != null ? `${b.variacion > 0 ? '+' : ''}${b.variacion.toFixed(2)}%` : '–',
-    tna:       pct(b.tna),
-    tea:       pct(b.tea),
-    tem:       pct(b.tem),
-  }))
+  return items.map((b) => {
+    const vpv    = b.px_finish ?? null
+    const precio = b.precio    ?? null
+    const resultado = vpv != null && precio != null && precio > 0
+      ? `${((vpv / precio - 1) * 100).toFixed(2)}%`
+      : '–'
+    return {
+      ticker:    b.ticker,
+      tipo:      (b.tipo as 'LECAP' | 'BONCAP') ?? 'LECAP',
+      vto:       dateFmt(b.vto),
+      dtm:       b.dtm ?? dtmFromIso(b.vto),
+      precio:    num(precio, 4),
+      vf:        num(vpv, 2),
+      resultado,
+      tna:       pct(b.tna),
+      tea:       pct(b.tea),
+      tem:       pct(b.tem),
+    }
+  })
 }
 
 export function mapBonosCER(items: BondItem[]): BonoCER[] {
@@ -140,23 +147,39 @@ export function mapCaucionesUSD(caucion: CaucionData): Caucion[] {
 }
 
 export function mapSoberanos(items: BondItem[]): SoberanoUSD[] {
-  return items.map((b) => ({
-    ticker: b.ticker,
-    precio: num(b.price_usd, 3),
-    vto:    dateFmt(b.vto),
-    tir:    pct(b.tir),
-    dm:     b.mac_dur != null ? `${b.mac_dur.toFixed(2)}y` : '–',
-  }))
+  return items.map((b) => {
+    const v = (b as any).variacion as number | null | undefined
+    return {
+      ticker:            b.ticker,
+      vto:               dateFmt(b.vto),
+      dtm:               b.dtm ?? dtmFromIso(b.vto),
+      precio:            num(b.price_usd, 3),
+      variacion:         v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '–',
+      variacionPositiva: (v ?? 0) >= 0,
+      ic:                num((b as any).ic,      4),
+      paridad:           num((b as any).paridad, 2),
+      tir:               pct(b.tir),
+      dm:                b.mac_dur != null ? `${b.mac_dur.toFixed(2)}y` : '–',
+    }
+  })
 }
 
 export function mapBopreales(items: BondItem[]): Bopreal[] {
-  return items.map((b) => ({
-    ticker: b.ticker,
-    precio: num(b.price_usd, 3),
-    vto:    dateFmt(b.vto),
-    tir:    pct(b.tir),
-    dm:     b.mac_dur != null ? `${b.mac_dur.toFixed(2)}y` : '–',
-  }))
+  return items.map((b) => {
+    const v = (b as any).variacion as number | null | undefined
+    return {
+      ticker:            b.ticker,
+      vto:               dateFmt(b.vto),
+      dtm:               b.dtm ?? dtmFromIso(b.vto),
+      precio:            num(b.price_usd, 3),
+      variacion:         v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '–',
+      variacionPositiva: (v ?? 0) >= 0,
+      ic:                num((b as any).ic,      4),
+      paridad:           num((b as any).paridad, 2),
+      tir:               pct(b.tir),
+      dm:                b.mac_dur != null ? `${b.mac_dur.toFixed(2)}y` : '–',
+    }
+  })
 }
 
 export function mapONs(items: BondItem[]): ObligacionNegociable[] {

@@ -122,3 +122,24 @@ export interface EquitiesData {
   cedears: EquityItem[]
   etfs: EquityItem[]
 }
+
+export interface CalendarEvent {
+  date: string
+  ticker: string
+  tipo_instrumento: string
+  moneda: 'USD' | 'ARS'
+  coupon: number
+  amort: number
+  total: number
+  tipo_pago: 'RENTA' | 'AMORT' | 'RENTA+AMORT'
+  emisor?: string
+}
+
+export async function fetchCalendar(): Promise<CalendarEvent[]> {
+  const res = await fetch(`${API_BASE}/api/calendar`, {
+    cache: 'no-store',
+    headers: { Accept: 'application/json' },
+  })
+  if (!res.ok) throw new Error(`GET /api/calendar falló con ${res.status}`)
+  return res.json()
+}

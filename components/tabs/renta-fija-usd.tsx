@@ -10,19 +10,25 @@ function parsePrice(str: string): number {
 }
 
 const soberanosColumns: ColumnDef<SoberanoUSD>[] = [
-  { key: "ticker", header: "Ticker", accessor: (r) => r.ticker, clickable: true },
-  { key: "precio", header: "Precio", accessor: (r) => r.precio, align: "right", mono: true },
-  { key: "vto", header: "Vto", accessor: (r) => r.vto },
-  { key: "tir", header: "TIR", accessor: (r) => r.tir, align: "right", mono: true, highlighted: (r) => r.tirHighlighted ?? false },
-  { key: "dm", header: "DM", accessor: (r) => r.dm, align: "right", mono: true },
+  { key: "ticker",    header: "Ticker",   accessor: (r) => r.ticker,    clickable: true },
+  { key: "vto",       header: "Vto",      accessor: (r) => r.vto },
+  { key: "precio",    header: "Precio",   accessor: (r) => r.precio,    align: "right", mono: true },
+  { key: "variacion", header: "Var%",     accessor: (r) => r.variacion, align: "right", mono: true, colorize: (r) => r.variacionPositiva },
+  { key: "ic",        header: "Int. Cor.", accessor: (r) => r.ic,       align: "right", mono: true },
+  { key: "paridad",   header: "Paridad",  accessor: (r) => r.paridad,   align: "right", mono: true },
+  { key: "tir",       header: "TIR",      accessor: (r) => r.tir,       align: "right", mono: true },
+  { key: "dm",        header: "DM",       accessor: (r) => r.dm,        align: "right", mono: true },
 ]
 
 const boprealesColumns: ColumnDef<Bopreal>[] = [
-  { key: "ticker", header: "Ticker", accessor: (r) => r.ticker, clickable: true },
-  { key: "precio", header: "Precio", accessor: (r) => r.precio, align: "right", mono: true },
-  { key: "vto", header: "Vto", accessor: (r) => r.vto },
-  { key: "tir", header: "TIR", accessor: (r) => r.tir, align: "right", mono: true, highlighted: (r) => r.tirHighlighted ?? false },
-  { key: "dm", header: "DM", accessor: (r) => r.dm, align: "right", mono: true },
+  { key: "ticker",    header: "Ticker",    accessor: (r) => r.ticker,    clickable: true },
+  { key: "vto",       header: "Vto",       accessor: (r) => r.vto },
+  { key: "precio",    header: "Precio",    accessor: (r) => r.precio,    align: "right", mono: true },
+  { key: "variacion", header: "Var%",      accessor: (r) => r.variacion, align: "right", mono: true, colorize: (r) => r.variacionPositiva },
+  { key: "ic",        header: "Int. Cor.", accessor: (r) => r.ic,        align: "right", mono: true },
+  { key: "paridad",   header: "Paridad",   accessor: (r) => r.paridad,   align: "right", mono: true },
+  { key: "tir",       header: "TIR",       accessor: (r) => r.tir,       align: "right", mono: true },
+  { key: "dm",        header: "DM",        accessor: (r) => r.dm,        align: "right", mono: true },
 ]
 
 interface BondForCalc {
@@ -60,7 +66,7 @@ export function RentaFijaUSDTab({ soberanosData, boprealesData }: RentaFijaUSDPr
       ticker: row.ticker,
       tipo: "BOPREAL",
       vto: row.vto,
-      dtm: Math.round((new Date(row.vto.split("/").reverse().join("-")).getTime() - Date.now()) / (1000 * 60 * 60 * 24)),
+      dtm: row.dtm,
       precioActual: parsePrice(row.precio),
       vf: 100,
     })

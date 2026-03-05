@@ -14,6 +14,8 @@ export interface ColumnDef<T> {
   header: string
   accessor: (row: T) => string | number
   highlighted?: (row: T) => boolean
+  /** Si se provee, colorea el texto: true = verde (primary), false = rojo (destructive) */
+  colorize?: (row: T) => boolean
   align?: "left" | "center" | "right"
   mono?: boolean
   clickable?: boolean
@@ -66,6 +68,7 @@ export function MarketTable<T>({
                 const value = col.accessor(row)
                 const isHighlighted = col.highlighted?.(row) ?? false
                 const isClickable = col.clickable && onTickerClick
+                const colorize = col.colorize ? col.colorize(row) : null
 
                 return (
                   <TableCell
@@ -73,7 +76,10 @@ export function MarketTable<T>({
                     className={`text-sm ${
                       col.mono ? "font-mono" : ""
                     } ${
-                      isHighlighted ? "text-accent font-semibold" : "text-card-foreground"
+                      colorize === true  ? "text-primary font-medium" :
+                      colorize === false ? "text-destructive font-medium" :
+                      isHighlighted      ? "text-accent font-semibold" :
+                                           "text-card-foreground"
                     } ${
                       col.align === "right" ? "text-right" : col.align === "center" ? "text-center" : "text-left"
                     } ${isClickable ? "cursor-pointer" : ""}`}
