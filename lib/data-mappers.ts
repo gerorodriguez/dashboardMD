@@ -104,6 +104,7 @@ export function mapBonosCER(items: BondItem[]): BonoCER[] {
     precio:    ars(b.precio),
     variacion: b.variacion != null ? `${b.variacion > 0 ? '+' : ''}${b.variacion.toFixed(2)}%` : '–',
     tir:       pct(b.tir),
+    tna:       pct(b.tna),
     dm:        b.mac_dur != null ? `${b.mac_dur.toFixed(2)}y` : '–',
   }))
 }

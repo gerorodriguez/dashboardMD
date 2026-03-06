@@ -49,16 +49,21 @@ export const lecapBoncapData: LecapBoncap[] = [
 ]
 
 export const bonosCERData: BonoCER[] = [
-  { ticker: "TZXM6", tipo: "BONCER", vto: "31/03/2026", dtm: 35, precio: "207.25", variacion: "–", tir: "-0.01%", dm: "0.10" },
-  { ticker: "TZX26", tipo: "BONCER", vto: "30/06/2026", dtm: 126, precio: "344.05", variacion: "–", tir: "3.87%", dm: "0.33" },
-  { ticker: "TX26", tipo: "BONCER", vto: "09/11/2026", dtm: 258, precio: "1228.00", variacion: "–", tir: "5.48%", dm: "0.43" },
-  { ticker: "TZXD6", tipo: "BONCER", vto: "15/12/2026", dtm: 294, precio: "244.60", variacion: "–", tir: "6.69%", dm: "0.75", tirHighlighted: true },
-  { ticker: "TZXM7", tipo: "BONCER", vto: "31/03/2027", dtm: 400, precio: "179.20", variacion: "–", tir: "7.16%", dm: "1.02", tirHighlighted: true },
-  { ticker: "TZX27", tipo: "BONCER", vto: "30/06/2027", dtm: 491, precio: "318.30", variacion: "–", tir: "6.99%", dm: "1.26", tirHighlighted: true },
-  { ticker: "TX28", tipo: "BONCER", vto: "09/11/2028", dtm: 989, precio: "1732.00", variacion: "–", tir: "8.05%", dm: "1.28", tirHighlighted: true },
-  { ticker: "TZXD7", tipo: "BONCER", vto: "15/12/2027", dtm: 659, precio: "223.30", variacion: "–", tir: "8.26%", dm: "1.67", tirHighlighted: true },
-  { ticker: "TZX28", tipo: "BONCER", vto: "30/06/2028", dtm: 857, precio: "288.40", variacion: "–", tir: "8.41%", dm: "2.17", tirHighlighted: true },
-  { ticker: "DICP", tipo: "BONCER", vto: "31/12/2033", dtm: 2867, precio: "45200.00", variacion: "–", tir: "8.52%", dm: "3.16", tirHighlighted: true },
+  { ticker: "TZX26",  tipo: "LECER",  vto: "20/03/26", dtm: 12,   precio: "354",     variacion: "+0.23%", tir: "2.00%",  tna: "2.00%",  dm: "0.03y" },
+  { ticker: "X15Y6",  tipo: "LECER",  vto: "15/05/26", dtm: 68,   precio: "100",     variacion: "–",      tir: "3.50%",  tna: "3.50%",  dm: "0.19y" },
+  { ticker: "X29Y6",  tipo: "LECER",  vto: "29/05/26", dtm: 82,   precio: "108",     variacion: "–",      tir: "4.00%",  tna: "4.00%",  dm: "0.22y" },
+  { ticker: "X31L6",  tipo: "LECER",  vto: "31/07/26", dtm: 145,  precio: "102",     variacion: "–",      tir: "4.50%",  tna: "4.50%",  dm: "0.40y" },
+  { ticker: "TZXO6",  tipo: "LECER",  vto: "30/10/26", dtm: 236,  precio: "143",     variacion: "–",      tir: "5.50%",  tna: "5.50%",  dm: "0.65y" },
+  { ticker: "TX26",   tipo: "BONCER", vto: "09/11/26", dtm: 246,  precio: "1.253",   variacion: "+0.18%", tir: "5.00%",  tna: "5.00%",  dm: "0.42y" },
+  { ticker: "X30N6",  tipo: "LECER",  vto: "30/11/26", dtm: 267,  precio: "103",     variacion: "–",      tir: "5.50%",  tna: "5.50%",  dm: "0.73y" },
+  { ticker: "TZXD6",  tipo: "LECER",  vto: "15/12/26", dtm: 282,  precio: "251",     variacion: "–",      tir: "5.50%",  tna: "5.50%",  dm: "0.77y" },
+  { ticker: "TZXM7",  tipo: "LECER",  vto: "31/03/27", dtm: 388,  precio: "185",     variacion: "–",      tir: "6.00%",  tna: "6.00%",  dm: "1.06y", tirHighlighted: true },
+  { ticker: "TZX27",  tipo: "LECER",  vto: "30/06/27", dtm: 479,  precio: "326",     variacion: "–",      tir: "6.50%",  tna: "6.50%",  dm: "1.31y", tirHighlighted: true },
+  { ticker: "TZXA7",  tipo: "LECER",  vto: "30/07/27", dtm: 509,  precio: "99",      variacion: "–",      tir: "7.00%",  tna: "7.00%",  dm: "1.39y", tirHighlighted: true },
+  { ticker: "TZX28",  tipo: "LECER",  vto: "30/06/28", dtm: 845,  precio: "300",     variacion: "–",      tir: "7.50%",  tna: "7.50%",  dm: "2.32y", tirHighlighted: true },
+  { ticker: "TX28",   tipo: "BONCER", vto: "09/11/28", dtm: 977,  precio: "2.933",   variacion: "+0.12%", tir: "7.00%",  tna: "7.00%",  dm: "1.61y", tirHighlighted: true },
+  { ticker: "TX31",   tipo: "BONCER", vto: "01/12/31", dtm: 2094, precio: "1.178",   variacion: "–",      tir: "8.00%",  tna: "8.00%",  dm: "4.45y", tirHighlighted: true },
+  { ticker: "DICP",   tipo: "BONCER", vto: "31/12/33", dtm: 2855, precio: "41.215",  variacion: "–",      tir: "9.00%",  tna: "9.00%",  dm: "6.15y", tirHighlighted: true },
 ]
 
 export const futurosDolarData: FuturoDolar[] = [
