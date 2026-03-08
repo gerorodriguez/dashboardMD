@@ -1,9 +1,11 @@
 "use client"
 
+import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MarketHeader } from "@/components/market-header"
 import { RentaFijaPesosTab } from "@/components/tabs/renta-fija-pesos"
 import { RentaFijaUSDTab } from "@/components/tabs/renta-fija-usd"
+import { FuturosDolarTab } from "@/components/tabs/futuros-dolar"
 import { RentaVariableTab } from "@/components/tabs/renta-variable"
 import { ObligacionesNegociablesTab } from "@/components/tabs/obligaciones-negociables"
 import { NoticiasTab } from "@/components/tabs/noticias"
@@ -24,10 +26,11 @@ import {
   mapETFs,
   mapNews,
 } from "@/lib/data-mappers"
-import { Banknote, DollarSign, BarChart3, Building2, Newspaper, CalendarDays, Loader2, WifiOff } from "lucide-react"
+import { Banknote, DollarSign, BarChart3, Building2, Newspaper, CalendarDays, TrendingUp, Loader2, WifiOff } from "lucide-react"
 
 export default function Dashboard() {
   const { data, status, error, lastUpdated } = useMarketData()
+  const [activeTab, setActiveTab] = useState("renta-fija-pesos")
 
   if (status === "loading") {
     return (
@@ -73,7 +76,27 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-[1440px] px-4 py-6 lg:px-8">
-        <MarketHeader data={headerData} />
+        <MarketHeader
+          data={headerData}
+          actions={
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setActiveTab("noticias")}
+                className={`inline-flex items-center justify-center rounded-md p-1.5 text-xs transition-colors hover:bg-secondary ${activeTab === "noticias" ? "bg-primary/10 text-primary" : "text-muted-foreground"}`}
+                title="Noticias"
+              >
+                <Newspaper className="size-3.5" />
+              </button>
+              <button
+                onClick={() => setActiveTab("calendario")}
+                className={`inline-flex items-center justify-center rounded-md p-1.5 text-xs transition-colors hover:bg-secondary ${activeTab === "calendario" ? "bg-primary/10 text-primary" : "text-muted-foreground"}`}
+                title="Calendario"
+              >
+                <CalendarDays className="size-3.5" />
+              </button>
+            </div>
+          }
+        />
 
         {lastUpdated && (
           <p className="mt-2 text-right text-xs text-muted-foreground/60">
@@ -81,7 +104,7 @@ export default function Dashboard() {
           </p>
         )}
 
-        <Tabs defaultValue="renta-fija-pesos" className="mt-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4">
           <TabsList className="mb-4 h-auto w-full justify-start gap-1 bg-secondary/50 p-1 rounded-lg flex-wrap">
             <TabsTrigger
               value="renta-fija-pesos"
@@ -114,18 +137,11 @@ export default function Dashboard() {
               <span className="sm:hidden">ONs</span>
             </TabsTrigger>
             <TabsTrigger
-              value="noticias"
+              value="futuros-dolar"
               className="flex items-center gap-2 px-4 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none rounded-md text-muted-foreground"
             >
-              <Newspaper className="size-4" />
-              <span>Noticias</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="calendario"
-              className="flex items-center gap-2 px-4 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none rounded-md text-muted-foreground"
-            >
-              <CalendarDays className="size-4" />
-              <span>Calendario</span>
+              <TrendingUp className="size-4" />
+              <span className="hidden sm:inline">Futuros</span> $
             </TabsTrigger>
           </TabsList>
 
@@ -134,11 +150,9 @@ export default function Dashboard() {
               lecapData={lecapData}
               boncapData={boncapData}
               cerData={cerData}
-              futurosData={futurosData}
               caucionData={caucionData}
               caucionUSDData={caucionUSDData}
               cerIndex={headerData.cerIndex}
-              dolarSpot={headerData.dolarSpot}
             />
           </TabsContent>
 
@@ -161,6 +175,13 @@ export default function Dashboard() {
             <ObligacionesNegociablesTab
               onNYData={onNYData}
               onArgData={onArgData}
+            />
+          </TabsContent>
+
+          <TabsContent value="futuros-dolar">
+            <FuturosDolarTab
+              futurosData={futurosData}
+              dolarSpot={headerData.dolarSpot}
             />
           </TabsContent>
 

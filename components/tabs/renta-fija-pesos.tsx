@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react"
 import { MarketTable, type ColumnDef } from "@/components/market-table"
 import { RateCalculator } from "@/components/rate-calculator"
-import type { LecapBoncap, BonoCER, FuturoDolar, Caucion } from "@/lib/types"
+import type { LecapBoncap, BonoCER, Caucion } from "@/lib/types"
 
 function parsePrice(str: string): number {
   return parseFloat(str.replace(/[^0-9.-]/g, ""))
@@ -33,16 +33,6 @@ const cerColumns: ColumnDef<BonoCER>[] = [
   { key: "dm",        header: "DM",        accessor: (r) => r.dm,        align: "right", mono: true },
 ]
 
-const futuroColumns: ColumnDef<FuturoDolar>[] = [
-  { key: "contrato", header: "Contrato", accessor: (r) => r.contrato },
-  { key: "vto", header: "Vto", accessor: (r) => r.vto },
-  { key: "dtm", header: "DTM", accessor: (r) => r.dtm, align: "right", mono: true },
-  { key: "precio", header: "Precio", accessor: (r) => r.precio, align: "right", mono: true },
-  { key: "tna", header: "TNA", accessor: (r) => r.tna, align: "right", mono: true },
-  { key: "tea", header: "TEA", accessor: (r) => r.tea, align: "right", mono: true },
-  { key: "tem", header: "TEM", accessor: (r) => r.tem, align: "right", mono: true },
-]
-
 const caucionColumns: ColumnDef<Caucion>[] = [
   { key: "plazo", header: "Plazo (dias)", accessor: (r) => r.plazo, align: "center", mono: true },
   { key: "tna", header: "TNA", accessor: (r) => r.tna, align: "right", mono: true, highlighted: (r) => r.highlighted ?? false },
@@ -62,22 +52,18 @@ interface RentaFijaPesosProps {
   lecapData: LecapBoncap[]
   boncapData: LecapBoncap[]
   cerData: BonoCER[]
-  futurosData: FuturoDolar[]
   caucionData: Caucion[]
   caucionUSDData: Caucion[]
   cerIndex: string
-  dolarSpot: string
 }
 
 export function RentaFijaPesosTab({
   lecapData,
   boncapData,
   cerData,
-  futurosData,
   caucionData,
   caucionUSDData,
   cerIndex,
-  dolarSpot,
 }: RentaFijaPesosProps) {
   const [calcOpen, setCalcOpen] = useState(false)
   const [selectedBond, setSelectedBond] = useState<BondForCalc | null>(null)
@@ -123,12 +109,6 @@ export function RentaFijaPesosTab({
         data={cerData}
         getRowKey={(r) => r.ticker}
         onTickerClick={handleCerClick}
-      />
-      <MarketTable
-        title={`Futuros Dolar (Spot: ${dolarSpot})`}
-        columns={futuroColumns}
-        data={futurosData}
-        getRowKey={(r) => r.contrato}
       />
       <div className="grid gap-6 xl:grid-cols-2">
         <MarketTable

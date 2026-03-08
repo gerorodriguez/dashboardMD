@@ -3,7 +3,7 @@
 import { Clock, TrendingUp, DollarSign, Activity } from "lucide-react"
 import type { MarketData } from "@/lib/types"
 
-export function MarketHeader({ data }: { data: MarketData }) {
+export function MarketHeader({ data, actions }: { data: MarketData; actions?: React.ReactNode }) {
   return (
     <header className="border-b border-border pb-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -21,6 +21,7 @@ export function MarketHeader({ data }: { data: MarketData }) {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {actions}
           <span className="inline-flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary">
             <Activity className="size-3.5" />
             <span className="sr-only">Estado del mercado:</span>
