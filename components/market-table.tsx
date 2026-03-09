@@ -63,7 +63,7 @@ export function MarketTable<T>({
         </TableHeader>
         <TableBody>
           {data.map((row) => (
-            <TableRow key={getRowKey(row)} className="border-border/50 hover:bg-secondary/30">
+            <TableRow key={getRowKey(row)} className="border-border/50 even:bg-secondary/20 hover:bg-secondary/40">
               {columns.map((col) => {
                 const value = col.accessor(row)
                 const isHighlighted = col.highlighted?.(row) ?? false

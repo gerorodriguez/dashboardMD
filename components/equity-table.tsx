@@ -61,7 +61,7 @@ export function EquityTable({ title, subtitle, columns, data, extraColumns }: Eq
         </TableHeader>
         <TableBody>
           {data.map((row) => (
-            <TableRow key={row.ticker} className="border-border/50 hover:bg-secondary/30">
+            <TableRow key={row.ticker} className="border-border/50 even:bg-secondary/20 hover:bg-secondary/40">
               {allColumns.map((col) => {
                 if (col.key === "ticker") {
                   return (
