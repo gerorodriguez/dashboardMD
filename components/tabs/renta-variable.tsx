@@ -25,7 +25,7 @@ export function RentaVariableTab({
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
         <EquityTable
           title="Acciones Argentinas"
-          subtitle="Panel lider MERVAL — Top 10 por volumen"
+          subtitle="Panel lider MERVAL — Top 15 por volumen"
           columns={baseColumns}
           data={accionesData}
           extraColumns={[
@@ -34,7 +34,7 @@ export function RentaVariableTab({
         />
         <EquityTable
           title="CEDEARs"
-          subtitle="Certificados de Deposito Argentinos — Top 10 por volumen"
+          subtitle="Certificados de Deposito Argentinos — Top 15 por volumen"
           columns={baseColumns}
           data={cedearsData}
           extraColumns={[
