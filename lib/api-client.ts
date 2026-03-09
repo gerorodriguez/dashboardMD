@@ -38,6 +38,33 @@ export interface SnapshotResponse {
   caucion: CaucionData
   fx_rates: FxRates
   news?: Record<string, NewsItem[]>
+  global_tracker?: GlobalTrackerData
+}
+
+export interface GlobalTrackerAsset {
+  name:        string
+  ticker:      string
+  current:     number | null
+  d1:          number | null
+  w1:          number | null
+  m1:          number | null
+  ytd:         number | null
+  y1:          number | null
+  y3:          number | null
+  low52_pct:   number | null
+  high52_pct:  number | null
+}
+
+export interface GlobalTrackerGroup {
+  name:   string
+  assets: GlobalTrackerAsset[]
+}
+
+export interface GlobalTrackerData {
+  as_of:        string
+  last_updated: string
+  delay_note:   string
+  groups:       GlobalTrackerGroup[]
 }
 
 export interface FxRates {

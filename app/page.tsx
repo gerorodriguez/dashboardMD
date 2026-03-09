@@ -10,6 +10,7 @@ import { RentaVariableTab } from "@/components/tabs/renta-variable"
 import { ObligacionesNegociablesTab } from "@/components/tabs/obligaciones-negociables"
 import { NoticiasTab } from "@/components/tabs/noticias"
 import { CalendarioTab } from "@/components/tabs/calendario"
+import { GlobalTrackerTab } from "@/components/tabs/global-tracker"
 import { useMarketData } from "@/hooks/use-market-data"
 import {
   mapMarketHeader,
@@ -26,7 +27,7 @@ import {
   mapETFs,
   mapNews,
 } from "@/lib/data-mappers"
-import { Banknote, DollarSign, BarChart3, Building2, Newspaper, CalendarDays, TrendingUp, Loader2, WifiOff } from "lucide-react"
+import { Banknote, DollarSign, BarChart3, Building2, Newspaper, CalendarDays, TrendingUp, Loader2, WifiOff, Globe } from "lucide-react"
 
 export default function Dashboard() {
   const { data, status, error, lastUpdated } = useMarketData()
@@ -81,6 +82,13 @@ export default function Dashboard() {
           data={headerData}
           actions={
             <div className="flex items-center gap-1">
+              <button
+                onClick={() => setActiveTab("global-tracker")}
+                className={`inline-flex items-center justify-center rounded-md p-1.5 text-xs transition-colors hover:bg-secondary ${activeTab === "global-tracker" ? "bg-primary/10 text-primary" : "text-muted-foreground"}`}
+                title="Global Market Tracker"
+              >
+                <Globe className="size-3.5" />
+              </button>
               <button
                 onClick={() => setActiveTab("noticias")}
                 className={`inline-flex items-center justify-center rounded-md p-1.5 text-xs transition-colors hover:bg-secondary ${activeTab === "noticias" ? "bg-primary/10 text-primary" : "text-muted-foreground"}`}
@@ -187,6 +195,10 @@ export default function Dashboard() {
               sinteticosData={sinteticosData}
               dolarSpot={headerData.dolarSpot}
             />
+          </TabsContent>
+
+          <TabsContent value="global-tracker">
+            <GlobalTrackerTab data={data.global_tracker} />
           </TabsContent>
 
           <TabsContent value="noticias">
