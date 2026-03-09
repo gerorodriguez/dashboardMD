@@ -29,7 +29,7 @@ const cerColumns: ColumnDef<BonoCER>[] = [
   { key: "vto",       header: "Vto",       accessor: (r) => r.vto },
   { key: "dtm",       header: "DTM",       accessor: (r) => r.dtm,       align: "right", mono: true },
   { key: "precio",    header: "Precio",    accessor: (r) => r.precio,    align: "right", mono: true },
-  { key: "variacion", header: "Var%",      accessor: (r) => r.variacion, align: "right", mono: true },
+  { key: "variacion", header: "Var%",      accessor: (r) => r.variacion, align: "right", mono: true, colorize: (r) => r.variacionPositiva },
   { key: "tir",       header: "TIR",       accessor: (r) => r.tir,       align: "right", mono: true, highlighted: (r) => r.tirHighlighted ?? false },
   { key: "tna",       header: "TNA",       accessor: (r) => r.tna,       align: "right", mono: true },
   { key: "dm",        header: "DM",        accessor: (r) => r.dm,        align: "right", mono: true },

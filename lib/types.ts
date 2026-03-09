@@ -37,6 +37,7 @@ export interface BonoCER {
   dtm: number
   precio: string
   variacion: string
+  variacionPositiva: boolean
   tir: string
   tna: string
   dm: string
