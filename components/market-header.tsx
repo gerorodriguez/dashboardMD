@@ -1,6 +1,6 @@
 "use client"
 
-import { Clock, DollarSign, Activity } from "lucide-react"
+import { Clock, DollarSign, Activity, ArrowLeftRight } from "lucide-react"
 import type { MarketData } from "@/lib/types"
 
 export function MarketHeader({ data, actions }: { data: MarketData; actions?: React.ReactNode }) {
@@ -31,9 +31,9 @@ export function MarketHeader({ data, actions }: { data: MarketData; actions?: Re
       </div>
 
       {/* Tipo de Cambio + Sintetico side by side */}
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-6 grid gap-4 lg:grid-cols-3">
         {/* Tipo de Cambio */}
-        <div className="rounded-lg border border-border bg-card p-4">
+        <div className="rounded-lg border border-border bg-card p-4 lg:col-span-2">
           <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-primary">
             <DollarSign className="size-4" />
             Tipo de Cambio
@@ -48,6 +48,21 @@ export function MarketHeader({ data, actions }: { data: MarketData; actions?: Re
           </div>
         </div>
 
+        {/* Brechas FX */}
+        <div className="rounded-lg border border-border bg-card p-4">
+          <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-primary">
+            <ArrowLeftRight className="size-4" />
+            Brechas
+          </h3>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2">
+            {data.brechaFX.map((b) => (
+              <div key={b.label} className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">{b.label}</span>
+                <span className="font-mono font-semibold text-foreground">{b.valor}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </header>
   )

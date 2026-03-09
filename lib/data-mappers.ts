@@ -9,7 +9,7 @@
 
 import type { SnapshotResponse, BondItem, EquityItem, FutureContract, CaucionData } from './api-client'
 import type {
-  MarketData, TipoCambio, SinteticoUSD,
+  MarketData, TipoCambio, SinteticoUSD, BrechaFX,
   LecapBoncap, BonoCER, FuturoDolar, Caucion,
   SoberanoUSD, Bopreal, ObligacionNegociable,
   AccionArgentina, Cedear, ETFArgentino,
@@ -50,10 +50,10 @@ export function mapMarketHeader(snap: SnapshotResponse): MarketData {
   const fx = snap.fx_rates ?? {}
 
   const tipoCambio: TipoCambio[] = [
-    { tipo: 'MEP',     valor: num(fx.mep,           2) },
-    { tipo: 'CCL',     valor: num(fx.ccl,           2) },
-    { tipo: 'Oficial', valor: num(fx.dolar_oficial,  2) },
-    { tipo: 'Spot',    valor: num(fx.dolar_spot,     2) },
+    { tipo: 'MEP',        valor: num(fx.mep,         2) },
+    { tipo: 'CCL',        valor: num(fx.ccl,         2) },
+    { tipo: 'Spot',       valor: num(fx.dolar_spot,  2) },
+    { tipo: 'Merval CCL', valor: num(fx.merval_ccl,  0) },
   ].filter((tc) => tc.valor !== '–')
 
   const sinteticoUSD: SinteticoUSD[] = (snap.futures?.sinteticos ?? [])
@@ -67,11 +67,27 @@ export function mapMarketHeader(snap: SnapshotResponse): MarketData {
       sintTea:  pct(s.sint_tea),
     }))
 
+  const mep  = fx.mep       ?? null
+  const ccl  = fx.ccl       ?? null
+  const spot = fx.dolar_spot ?? null
+
+  const brecha = (num: number | null, den: number | null): string => {
+    if (num == null || den == null || den === 0) return '–'
+    return `${((num / den - 1) * 100).toFixed(2)}%`
+  }
+
+  const brechaFX: BrechaFX[] = [
+    { label: 'Canje (CCL/MEP)',    valor: brecha(ccl,  mep)  },
+    { label: 'Brecha MEP/Spot',    valor: brecha(mep,  spot) },
+    { label: 'Brecha CCL/Spot',    valor: brecha(ccl,  spot) },
+  ]
+
   return {
     fecha:       new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' }),
     settlement:  snap.futures?.settle ? dateFmt(snap.futures.settle) : '',
     tipoCambio,
     sinteticoUSD,
+    brechaFX,
     cerIndex:    fx.cer_index ? num(fx.cer_index, 2) : '–',
     dolarSpot:   fx.dolar_spot ? num(fx.dolar_spot, 2) : '–',
   }

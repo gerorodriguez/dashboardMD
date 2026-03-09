@@ -136,11 +136,17 @@ export interface Caucion {
 }
 
 // Market header data
+export interface BrechaFX {
+  label: string
+  valor: string   // porcentaje formateado, ej: "2.34%"
+}
+
 export interface MarketData {
   fecha: string
   settlement: string
   tipoCambio: TipoCambio[]
   sinteticoUSD: SinteticoUSD[]
+  brechaFX: BrechaFX[]
   cerIndex: string
   dolarSpot: string
 }
