@@ -56,11 +56,15 @@ export function mapMarketHeader(snap: SnapshotResponse): MarketData {
     { tipo: 'Spot',    valor: num(fx.dolar_spot,     2) },
   ].filter((tc) => tc.valor !== '–')
 
-  const sinteticoUSD: SinteticoUSD[] = (snap.futures?.contracts ?? [])
-    .slice(0, 6)
-    .map((c) => ({
-      mes: c.contrato.replace('DLR/', ''),
-      tna: pct(c.tna),
+  const sinteticoUSD: SinteticoUSD[] = (snap.futures?.sinteticos ?? [])
+    .map((s: any) => ({
+      lecap:    s.lecap,
+      futuro:   s.futuro,
+      vto:      dateFmt(s.vto),
+      dtm:      s.dtm,
+      teaLecap: pct(s.tea_lecap),
+      teaFut:   pct(s.tea_fut),
+      sintTea:  pct(s.sint_tea),
     }))
 
   return {

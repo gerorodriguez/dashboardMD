@@ -1,6 +1,6 @@
 "use client"
 
-import { Clock, TrendingUp, DollarSign, Activity } from "lucide-react"
+import { Clock, DollarSign, Activity } from "lucide-react"
 import type { MarketData } from "@/lib/types"
 
 export function MarketHeader({ data, actions }: { data: MarketData; actions?: React.ReactNode }) {
@@ -48,23 +48,6 @@ export function MarketHeader({ data, actions }: { data: MarketData; actions?: Re
           </div>
         </div>
 
-        {/* Sintetico USD Linked */}
-        <div className="rounded-lg border border-border bg-card p-4">
-          <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-primary">
-            <TrendingUp className="size-4" />
-            {"Sintetico USD Linked (TNA)"}
-          </h3>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3">
-            {data.sinteticoUSD.map((s) => (
-              <div key={s.mes} className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">{s.mes}</span>
-                <span className={`font-mono font-semibold ${s.highlighted ? "text-accent" : "text-foreground"}`}>
-                  {s.tna}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </header>
   )

@@ -6,9 +6,13 @@ export interface TipoCambio {
 
 // Sintetico USD Linked
 export interface SinteticoUSD {
-  mes: string
-  tna: string
-  highlighted?: boolean
+  lecap:    string
+  futuro:   string
+  vto:      string
+  dtm:      number
+  teaLecap: string
+  teaFut:   string
+  sintTea:  string
 }
 
 // LECAP & BONCAP (Pesos - Tasa Fija)

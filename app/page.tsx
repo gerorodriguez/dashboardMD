@@ -62,6 +62,7 @@ export default function Dashboard() {
   const boncapData    = mapLecapBoncap(data.bonds_pesos?.boncap ?? [])
   const cerData       = mapBonosCER(data.bonds_pesos?.cer       ?? [])
   const futurosData   = mapFuturosDolar(data.futures?.contracts  ?? [])
+  const sinteticosData = headerData.sinteticoUSD
   const caucionData    = mapCauciones(data.caucion               ?? {})
   const caucionUSDData = mapCaucionesUSD(data.caucion            ?? {})
   const soberanosData = mapSoberanos(data.bonds_usd?.sovereigns  ?? [])
@@ -181,6 +182,7 @@ export default function Dashboard() {
           <TabsContent value="futuros-dolar">
             <FuturosDolarTab
               futurosData={futurosData}
+              sinteticosData={sinteticosData}
               dolarSpot={headerData.dolarSpot}
             />
           </TabsContent>
