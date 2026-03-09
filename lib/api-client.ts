@@ -46,6 +46,8 @@ export interface FxRates {
   dolar_oficial?: number
   dolar_spot?: number
   cer_index?: number
+  merval?: number
+  merval_ccl?: number
 }
 
 export interface BondItem {
@@ -91,11 +93,22 @@ export interface FutureContract {
   tem: number
 }
 
+export interface SinteticoItem {
+  lecap:     string
+  futuro:    string
+  vto:       string
+  dtm:       number
+  tea_lecap: number
+  tea_fut:   number
+  sint_tea:  number
+}
+
 export interface FuturesData {
   spot?: number
   spot_src?: string
-  settle: string
+  settle?: string
   contracts: FutureContract[]
+  sinteticos?: SinteticoItem[]
 }
 
 export interface CaucionEntry {
