@@ -154,6 +154,8 @@ export default function Dashboard() {
               caucionData={caucionData}
               caucionUSDData={caucionUSDData}
               cerIndex={headerData.cerIndex}
+              rawBonds={[...(data.bonds_pesos?.lecap ?? []), ...(data.bonds_pesos?.boncap ?? [])]}
+              tcEntradaDefault={data.fx_rates?.mep ?? 1500}
             />
           </TabsContent>
 

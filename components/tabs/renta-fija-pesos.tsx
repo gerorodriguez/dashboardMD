@@ -3,7 +3,9 @@
 import { useState, useCallback } from "react"
 import { MarketTable, type ColumnDef } from "@/components/market-table"
 import { RateCalculator } from "@/components/rate-calculator"
+import { CarryHeatmap } from "@/components/carry-heatmap"
 import type { LecapBoncap, BonoCER, Caucion } from "@/lib/types"
+import type { BondItem } from "@/lib/api-client"
 
 function parsePrice(str: string): number {
   return parseFloat(str.replace(/[^0-9.-]/g, ""))
@@ -55,6 +57,8 @@ interface RentaFijaPesosProps {
   caucionData: Caucion[]
   caucionUSDData: Caucion[]
   cerIndex: string
+  rawBonds: BondItem[]
+  tcEntradaDefault: number
 }
 
 export function RentaFijaPesosTab({
@@ -64,6 +68,8 @@ export function RentaFijaPesosTab({
   caucionData,
   caucionUSDData,
   cerIndex,
+  rawBonds,
+  tcEntradaDefault,
 }: RentaFijaPesosProps) {
   const [calcOpen, setCalcOpen] = useState(false)
   const [selectedBond, setSelectedBond] = useState<BondForCalc | null>(null)
@@ -103,6 +109,9 @@ export function RentaFijaPesosTab({
         getRowKey={(r) => r.ticker}
         onTickerClick={handleLecapClick}
       />
+
+      <CarryHeatmap rawBonds={rawBonds} tcEntradaDefault={tcEntradaDefault} />
+
       <MarketTable
         title={`Bonos CER (TIR Real) \u2014 CER: ${cerIndex}`}
         columns={cerColumns}
