@@ -159,8 +159,8 @@ export function CerYieldCurve({ rawCer }: CerYieldCurveProps) {
               scale="linear"
               domain={[xMin, xMax]}
               tickFormatter={(v) => `${Number(v).toFixed(1)}y`}
-              tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
-              label={{ value: "Duration (años)", position: "insideBottom", offset: -12, fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fontSize: 10, fill: "#ffffff" }}
+              label={{ value: "Duration (años)", position: "insideBottom", offset: -12, fontSize: 10, fill: "#ffffff" }}
               tickLine={false}
               axisLine={{ stroke: "hsl(var(--border))" }}
             />
@@ -170,7 +170,7 @@ export function CerYieldCurve({ rawCer }: CerYieldCurveProps) {
               type="number"
               domain={[yMin, yMax]}
               tickFormatter={(v) => `${Number(v).toFixed(1)}%`}
-              tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fontSize: 10, fill: "#ffffff" }}
               tickLine={false}
               axisLine={{ stroke: "hsl(var(--border))" }}
               width={46}
