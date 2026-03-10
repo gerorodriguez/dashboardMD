@@ -48,13 +48,21 @@ export function RentaFijaCERTab({
   const [selectedBond, setSelectedBond] = useState<BondForCalc | null>(null)
 
   const handleClick = useCallback((row: BonoCER) => {
+    const price = parsePrice(row.precio)
+    // tir viene formateado "6.89%" → parseFloat da 6.89 → /100 = 0.0689
+    const tir = parseFloat(row.tir) / 100
+    // Derivamos VF a partir del precio y TIR actuales (inversa de la fórmula)
+    // precio = VF / (1+TIR)^(dtm/365)  →  VF = precio × (1+TIR)^(dtm/365)
+    const vf = !isNaN(tir) && tir > -1 && row.dtm > 0
+      ? price * Math.pow(1 + tir, row.dtm / 365)
+      : 0
     setSelectedBond({
       ticker:       row.ticker,
       tipo:         row.tipo,
       vto:          row.vto,
       dtm:          row.dtm,
-      precioActual: parsePrice(row.precio),
-      vf:           parsePrice(row.precio) * 1.05,
+      precioActual: price,
+      vf,
     })
     setCalcOpen(true)
   }, [])
