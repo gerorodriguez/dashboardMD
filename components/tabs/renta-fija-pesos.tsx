@@ -4,6 +4,7 @@ import { useState, useCallback } from "react"
 import { MarketTable, type ColumnDef } from "@/components/market-table"
 import { RateCalculator } from "@/components/rate-calculator"
 import { CarryHeatmap } from "@/components/carry-heatmap"
+import { CerYieldCurve } from "@/components/cer-yield-curve"
 import type { LecapBoncap, BonoCER, Caucion } from "@/lib/types"
 import type { BondItem } from "@/lib/api-client"
 
@@ -58,6 +59,7 @@ interface RentaFijaPesosProps {
   caucionUSDData: Caucion[]
   cerIndex: string
   rawBonds: BondItem[]
+  rawCer: BondItem[]
   tcEntradaDefault: number
 }
 
@@ -69,6 +71,7 @@ export function RentaFijaPesosTab({
   caucionUSDData,
   cerIndex,
   rawBonds,
+  rawCer,
   tcEntradaDefault,
 }: RentaFijaPesosProps) {
   const [calcOpen, setCalcOpen] = useState(false)
@@ -119,20 +122,25 @@ export function RentaFijaPesosTab({
         getRowKey={(r) => r.ticker}
         onTickerClick={handleCerClick}
       />
-      <div className="grid gap-6 xl:grid-cols-2">
-        <MarketTable
-          title="Cauciones Pesos"
-          subtitle="Por volumen operado"
-          columns={caucionColumns}
-          data={caucionData}
-          getRowKey={(r) => String(r.plazo)}
-        />
-        <MarketTable
-          title="Cauciones USD"
-          columns={caucionColumns}
-          data={caucionUSDData}
-          getRowKey={(r) => String(r.plazo)}
-        />
+
+      {/* Curva CER + Cauciones en 2 columnas */}
+      <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
+        <CerYieldCurve rawCer={rawCer} />
+        <div className="flex flex-col gap-6">
+          <MarketTable
+            title="Cauciones Pesos"
+            subtitle="Por volumen operado"
+            columns={caucionColumns}
+            data={caucionData}
+            getRowKey={(r) => String(r.plazo)}
+          />
+          <MarketTable
+            title="Cauciones USD"
+            columns={caucionColumns}
+            data={caucionUSDData}
+            getRowKey={(r) => String(r.plazo)}
+          />
+        </div>
       </div>
 
       <RateCalculator
