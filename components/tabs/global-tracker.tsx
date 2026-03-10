@@ -7,16 +7,16 @@ import type { GlobalTrackerData, GlobalTrackerAsset } from "@/lib/api-client"
 // ─── Helpers de color ─────────────────────────────────────────────────────────
 
 function cellClass(v: number | null | undefined): string {
-  if (v === null || v === undefined) return "text-muted-foreground"
-  if (v >=  15) return "bg-emerald-700 text-white"
-  if (v >=   8) return "bg-emerald-600 text-white"
-  if (v >=   3) return "bg-emerald-500 text-white"
+  if (v === null || v === undefined) return "bg-secondary/30 text-muted-foreground/40"
+  if (v >=  15) return "bg-emerald-600 text-white"
+  if (v >=   8) return "bg-emerald-500 text-white"
+  if (v >=   3) return "bg-emerald-400 text-emerald-950"
   if (v >=   1) return "bg-emerald-300 text-emerald-950"
-  if (v >=   0) return "bg-emerald-100 text-emerald-950"
-  if (v >=  -3) return "bg-red-100 text-red-900"
-  if (v >=  -8) return "bg-red-300 text-red-900"
-  if (v >= -15) return "bg-red-400 text-white"
-  return "bg-red-600 text-white"
+  if (v >=   0) return "bg-emerald-100 text-emerald-800"
+  if (v >=  -3) return "bg-red-100 text-red-800"
+  if (v >=  -8) return "bg-red-200 text-red-900"
+  if (v >= -15) return "bg-red-300 text-red-950"
+  return "bg-red-400 text-white"
 }
 
 function fmt(v: number | null | undefined): string {
@@ -47,11 +47,11 @@ function AssetRow({ asset }: { asset: GlobalTrackerAsset }) {
   ]
 
   return (
-    <tr className="border-t border-border/40 hover:bg-secondary/20 transition-colors">
-      <td className="sticky left-0 z-10 bg-card py-1.5 pr-4 font-medium text-foreground whitespace-nowrap text-xs">
+    <tr>
+      <td className="sticky left-0 z-10 bg-card py-1.5 pr-3 font-medium text-foreground whitespace-nowrap text-[11px]">
         {asset.name}
       </td>
-      <td className="px-2 py-1.5 text-center font-mono text-muted-foreground text-xs">
+      <td className="px-2 py-1.5 text-center font-mono text-muted-foreground text-[11px]">
         {asset.ticker}
       </td>
       <td className="px-2 py-1.5 text-center font-mono text-foreground text-xs">
@@ -90,15 +90,17 @@ export function GlobalTrackerTab({ data }: GlobalTrackerTabProps) {
   const pctHeaders = ["1D", "1W", "1M", "YTD", "1Y", "3Y", "52W↓", "52W↑"]
 
   return (
-    <div className="rounded-lg border border-border bg-card p-4">
+    <div className="rounded-lg border border-border bg-card overflow-hidden">
 
       {/* Header */}
-      <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h3 className="text-sm font-semibold text-primary">Global Market Tracker</h3>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Retornos totales en USD por activo y período temporal
-          </p>
+      <div className="border-b border-border bg-secondary/50 px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2">
+          <div>
+            <h3 className="text-sm font-semibold text-primary leading-tight">Global Market Tracker</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Retornos totales en USD por activo y período temporal
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-3 shrink-0">
           <span className="inline-flex items-center gap-1.5 rounded bg-amber-100 dark:bg-amber-900/30 px-2.5 py-1 text-xs font-medium text-amber-800 dark:text-amber-400">
@@ -112,14 +114,14 @@ export function GlobalTrackerTab({ data }: GlobalTrackerTabProps) {
       </div>
 
       {/* Tabla */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-xs">
+      <div className="overflow-x-auto p-4">
+        <table className="w-full text-xs" style={{ borderCollapse: "separate", borderSpacing: "3px" }}>
           <thead>
-            <tr className="border-b-2 border-border">
-              <th className="sticky left-0 z-10 bg-card min-w-[160px] py-2 pr-4 text-left text-muted-foreground font-medium">
+            <tr>
+              <th className="sticky left-0 z-10 bg-card min-w-[160px] pb-3 pr-3 text-left text-muted-foreground font-medium text-[11px]">
                 Activo
               </th>
-              <th className="min-w-[70px] px-2 py-2 text-center text-muted-foreground font-medium">
+              <th className="min-w-[70px] px-2 pb-3 text-center text-muted-foreground font-medium text-[11px]">
                 Ticker
               </th>
               <th className="min-w-[90px] px-2 py-2 text-center text-muted-foreground font-medium">
@@ -142,7 +144,7 @@ export function GlobalTrackerTab({ data }: GlobalTrackerTabProps) {
                 <tr>
                   <td
                     colSpan={3 + pctHeaders.length}
-                    className="bg-primary/8 py-1.5 pl-2 font-semibold text-primary text-xs tracking-wide border-t-2 border-primary/20"
+                    className="pt-3 pb-1 pl-1 font-semibold text-primary text-[11px] tracking-wide"
                   >
                     {group.name}
                   </td>
@@ -158,17 +160,25 @@ export function GlobalTrackerTab({ data }: GlobalTrackerTabProps) {
       </div>
 
       {/* Leyenda */}
-      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-muted-foreground">
-        <span className="flex items-center gap-1.5">
-          <span className="inline-block h-3 w-3 rounded bg-emerald-500" />
-          Retorno positivo
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="inline-block h-3 w-3 rounded bg-red-400" />
-          Retorno negativo
-        </span>
-        <span className="text-muted-foreground/60 ml-auto">
-          52W↓ = vs mínimo 52 semanas · 52W↑ = vs máximo 52 semanas
+      <div className="border-t border-border/40 bg-secondary/30 px-4 py-2.5 flex flex-wrap gap-x-4 gap-y-1.5">
+        {[
+          { label: ">15%",    bg: "bg-emerald-600" },
+          { label: ">8%",     bg: "bg-emerald-500" },
+          { label: ">3%",     bg: "bg-emerald-400" },
+          { label: ">1%",     bg: "bg-emerald-300" },
+          { label: "0–1%",    bg: "bg-emerald-100" },
+          { label: "0–−3%",   bg: "bg-red-100" },
+          { label: "−3–8%",   bg: "bg-red-200" },
+          { label: "−8–15%",  bg: "bg-red-300" },
+          { label: "<−15%",   bg: "bg-red-400" },
+        ].map(l => (
+          <span key={l.label} className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+            <span className={`inline-block h-2.5 w-5 rounded ${l.bg}`} />
+            {l.label}
+          </span>
+        ))}
+        <span className="text-[10px] text-muted-foreground/60 ml-auto">
+          52W↓ = vs mínimo · 52W↑ = vs máximo
         </span>
       </div>
     </div>
