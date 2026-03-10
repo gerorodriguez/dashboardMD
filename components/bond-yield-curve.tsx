@@ -1,6 +1,6 @@
 "use client"
 
-import { ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { ComposedChart, Line, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import type { BondItem } from "@/lib/api-client"
 
 // ─── Colores ──────────────────────────────────────────────────────────────────
@@ -81,21 +81,13 @@ function CustomTooltip({ active, payload }: any) {
   )
 }
 
-// ─── Dot renderers ─────────────────────────────────────────────────────────────
+// ─── Dot renderer para Scatter ────────────────────────────────────────────────
 
-function makeDot(color: string) {
-  return function Dot(props: any) {
+function makeShape(color: string) {
+  return function Shape(props: any) {
     const { cx, cy } = props
-    if (cx == null || cy == null) return null
+    if (cx == null || cy == null) return <g />
     return <circle cx={cx} cy={cy} r={5} fill={color} stroke="white" strokeWidth={1.5} />
-  }
-}
-
-function makeActiveDot(color: string) {
-  return function ActiveDot(props: any) {
-    const { cx, cy } = props
-    if (cx == null || cy == null) return null
-    return <circle cx={cx} cy={cy} r={7} fill={color} stroke="white" strokeWidth={2} />
   }
 }
 
@@ -202,6 +194,7 @@ export function BondYieldCurve({ title, subtitle, series }: BondYieldCurveProps)
             {/* Curva polinómica */}
             {curveData.length > 0 && (
               <Line
+                key="__curve__"
                 data={curveData}
                 dataKey="y"
                 dot={false}
@@ -215,14 +208,11 @@ export function BondYieldCurve({ title, subtitle, series }: BondYieldCurveProps)
 
             {/* Series (una por grupo) */}
             {allSeries.map((s) => (
-              <Line
+              <Scatter
                 key={s.label}
+                name={s.label}
                 data={s.points}
-                dataKey="y"
-                stroke="none"
-                strokeWidth={0}
-                dot={makeDot(s.color)}
-                activeDot={makeActiveDot(s.color)}
+                shape={makeShape(s.color)}
                 isAnimationActive={false}
               />
             ))}
