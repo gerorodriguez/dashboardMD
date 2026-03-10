@@ -54,13 +54,14 @@ function AssetRow({ asset }: { asset: GlobalTrackerAsset }) {
       <td className="px-2 py-1.5 text-center font-mono text-muted-foreground text-xs">
         {asset.ticker}
       </td>
-      <td className="px-2 py-1.5 text-right font-mono text-foreground text-xs">
+      <td className="px-2 py-1.5 text-center font-mono text-foreground text-xs">
         {fmtPrice(asset.current)}
       </td>
       {pctCols.map(({ key }) => {
         const v = asset[key] as number | null
+        const is52w = key === "low52_pct" || key === "high52_pct"
         return (
-          <td key={key} className={`px-1 py-1.5 text-center font-mono text-xs rounded ${cellClass(v)}`}>
+          <td key={key} className={`py-1.5 text-center font-mono text-xs rounded ${cellClass(v)} ${is52w ? "pl-5 border-l border-border/60" : "px-1"}`}>
             {fmt(v)}
           </td>
         )
@@ -121,11 +122,14 @@ export function GlobalTrackerTab({ data }: GlobalTrackerTabProps) {
               <th className="min-w-[70px] px-2 py-2 text-center text-muted-foreground font-medium">
                 Ticker
               </th>
-              <th className="min-w-[90px] px-2 py-2 text-right text-muted-foreground font-medium">
+              <th className="min-w-[90px] px-2 py-2 text-center text-muted-foreground font-medium">
                 Precio
               </th>
               {pctHeaders.map((h) => (
-                <th key={h} className="min-w-[60px] px-1 py-2 text-center text-muted-foreground font-medium">
+                <th
+                  key={h}
+                  className={`min-w-[60px] px-1 py-2 text-center text-muted-foreground font-medium ${h.startsWith("52W") ? "pl-5 border-l border-border/60" : ""}`}
+                >
                   {h}
                 </th>
               ))}
