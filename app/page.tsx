@@ -172,6 +172,8 @@ export default function Dashboard() {
             <RentaFijaTasaFijaTab
               lecapData={lecapData}
               boncapData={boncapData}
+              caucionData={caucionData}
+              caucionUSDData={caucionUSDData}
               rawBonds={[...(data.bonds_pesos?.lecap ?? []), ...(data.bonds_pesos?.boncap ?? [])]}
               tcEntradaDefault={data.fx_rates?.mep ?? 1500}
             />
@@ -180,8 +182,6 @@ export default function Dashboard() {
           <TabsContent value="rf-cer">
             <RentaFijaCERTab
               cerData={cerData}
-              caucionData={caucionData}
-              caucionUSDData={caucionUSDData}
               cerIndex={headerData.cerIndex}
               rawCer={data.bonds_pesos?.cer ?? []}
             />

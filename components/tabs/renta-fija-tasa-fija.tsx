@@ -4,7 +4,7 @@ import { useState, useCallback } from "react"
 import { MarketTable, type ColumnDef } from "@/components/market-table"
 import { RateCalculator } from "@/components/rate-calculator"
 import { CarryHeatmap } from "@/components/carry-heatmap"
-import type { LecapBoncap } from "@/lib/types"
+import type { LecapBoncap, Caucion } from "@/lib/types"
 import type { BondItem } from "@/lib/api-client"
 
 function parsePrice(str: string): number {
@@ -32,9 +32,17 @@ interface BondForCalc {
   vf: number
 }
 
+const caucionColumns: ColumnDef<Caucion>[] = [
+  { key: "plazo", header: "Plazo (dias)",  accessor: (r) => r.plazo, align: "center", mono: true },
+  { key: "tna",   header: "TNA",           accessor: (r) => r.tna,   align: "right",  mono: true, highlighted: (r) => r.highlighted ?? false },
+  { key: "monto", header: "Monto Operado", accessor: (r) => r.monto, align: "right",  mono: true },
+]
+
 interface RentaFijaTasaFijaProps {
   lecapData: LecapBoncap[]
   boncapData: LecapBoncap[]
+  caucionData: Caucion[]
+  caucionUSDData: Caucion[]
   rawBonds: BondItem[]
   tcEntradaDefault: number
 }
@@ -42,6 +50,8 @@ interface RentaFijaTasaFijaProps {
 export function RentaFijaTasaFijaTab({
   lecapData,
   boncapData,
+  caucionData,
+  caucionUSDData,
   rawBonds,
   tcEntradaDefault,
 }: RentaFijaTasaFijaProps) {
@@ -73,6 +83,22 @@ export function RentaFijaTasaFijaTab({
       />
 
       <CarryHeatmap rawBonds={rawBonds} tcEntradaDefault={tcEntradaDefault} />
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <MarketTable
+          title="Cauciones Pesos"
+          subtitle="Por volumen operado"
+          columns={caucionColumns}
+          data={caucionData}
+          getRowKey={(r) => String(r.plazo)}
+        />
+        <MarketTable
+          title="Cauciones USD"
+          columns={caucionColumns}
+          data={caucionUSDData}
+          getRowKey={(r) => String(r.plazo)}
+        />
+      </div>
 
       <RateCalculator open={calcOpen} onOpenChange={setCalcOpen} bond={selectedBond} />
     </div>
