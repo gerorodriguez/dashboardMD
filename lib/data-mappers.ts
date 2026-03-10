@@ -174,7 +174,6 @@ export function mapSoberanos(items: BondItem[]): SoberanoUSD[] {
     return {
       ticker:            b.ticker,
       vto:               dateFmt(b.vto),
-      dtm:               b.dtm ?? dtmFromIso(b.vto),
       precio:            num(b.price_usd, 3),
       variacion:         v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '–',
       variacionPositiva: (v ?? 0) >= 0,
@@ -192,7 +191,6 @@ export function mapBopreales(items: BondItem[]): Bopreal[] {
     return {
       ticker:            b.ticker,
       vto:               dateFmt(b.vto),
-      dtm:               b.dtm ?? dtmFromIso(b.vto),
       precio:            num(b.price_usd, 3),
       variacion:         v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '–',
       variacionPositiva: (v ?? 0) >= 0,

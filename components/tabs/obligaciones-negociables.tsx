@@ -25,7 +25,6 @@ interface BondForCalc {
   ticker: string
   tipo: string
   vto: string
-  dtm: number
   precioActual: number
   vf: number
 }
@@ -48,10 +47,6 @@ export function ObligacionesNegociablesTab({ onNYData, onArgData, rawOnNY, rawOn
       ticker:       row.ticker,
       tipo:         `ON ${row.empresa}`,
       vto:          row.vto,
-      dtm:          Math.round(
-        (new Date(row.vto.split("/").reverse().join("-")).getTime() - Date.now()) /
-        (1000 * 60 * 60 * 24)
-      ),
       precioActual: parsePrice(row.precio),
       vf:           100,
       tirActual:    !isNaN(tirRaw) ? tirRaw / 100 : undefined,

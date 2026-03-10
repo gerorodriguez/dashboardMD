@@ -19,7 +19,7 @@ interface BondInfo {
   ticker:       string
   tipo:         string
   vto:          string
-  dtm:          number
+  dtm?:         number   // no aplica para soberanos/bopreales/ONs
   precioActual: number
   vf:           number
   tirActual?:   number   // decimal (0.089 = 8.9%), para soberanos/ONs
@@ -224,7 +224,7 @@ export function RateCalculator({ open, onOpenChange, bond }: RateCalculatorProps
             </div>
             <div className="text-right text-sm text-muted-foreground">
               <div>Vto: {bond.vto}</div>
-              <div>DTM: {bond.dtm}</div>
+              {bond.dtm != null && <div>DTM: {bond.dtm}</div>}
             </div>
           </div>
 

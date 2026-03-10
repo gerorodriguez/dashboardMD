@@ -37,7 +37,6 @@ interface BondForCalc {
   ticker: string
   tipo: string
   vto: string
-  dtm: number
   precioActual: number
   vf: number
 }
@@ -60,7 +59,6 @@ export function RentaFijaUSDTab({ soberanosData, boprealesData, rawSoberanos, ra
       ticker:     row.ticker,
       tipo:       "SOBERANO USD",
       vto:        row.vto,
-      dtm:        Math.round((new Date(row.vto.split("/").reverse().join("-")).getTime() - Date.now()) / (1000 * 60 * 60 * 24)),
       precioActual: parsePrice(row.precio),
       vf:         100,
       tirActual:  !isNaN(tirRaw) ? tirRaw / 100 : undefined,
@@ -76,7 +74,6 @@ export function RentaFijaUSDTab({ soberanosData, boprealesData, rawSoberanos, ra
       ticker:     row.ticker,
       tipo:       "BOPREAL",
       vto:        row.vto,
-      dtm:        row.dtm,
       precioActual: parsePrice(row.precio),
       vf:         100,
       tirActual:  !isNaN(tirRaw) ? tirRaw / 100 : undefined,

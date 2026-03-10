@@ -59,7 +59,6 @@ export interface FuturoDolar {
 export interface SoberanoUSD {
   ticker: string
   vto: string
-  dtm: number
   precio: string
   variacion: string
   variacionPositiva: boolean
@@ -73,7 +72,6 @@ export interface SoberanoUSD {
 export interface Bopreal {
   ticker: string
   vto: string
-  dtm: number
   precio: string
   variacion: string
   variacionPositiva: boolean
