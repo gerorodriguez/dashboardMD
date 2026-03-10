@@ -10,6 +10,38 @@
 const API_BASE =
   process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
 
+// ─── Pricer endpoint ─────────────────────────────────────────────────────────
+
+export interface PricerResult {
+  ticker:  string
+  mode:    'price_to_tir' | 'tir_to_price'
+  price:   number
+  tir:     number
+  tna:     number
+  dm:      number
+  ic:      number
+  settle:  string
+}
+
+export async function fetchPricer(
+  ticker: string,
+  params: { price: number } | { tir: number },
+): Promise<PricerResult> {
+  const query = 'price' in params
+    ? `price=${params.price}`
+    : `tir=${(params as { tir: number }).tir}`
+  const res = await fetch(`${API_BASE}/api/pricer/${encodeURIComponent(ticker)}?${query}`, {
+    cache: 'no-store',
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: `HTTP ${res.status}` }))
+    throw new Error((err as any).detail ?? `Error ${res.status}`)
+  }
+  return res.json()
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export async function fetchSnapshot(): Promise<SnapshotResponse> {
   const res = await fetch(`${API_BASE}/api/snapshot`, {
     cache: 'no-store',

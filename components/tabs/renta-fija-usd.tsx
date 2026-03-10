@@ -54,25 +54,33 @@ export function RentaFijaUSDTab({ soberanosData, boprealesData, rawSoberanos, ra
   const [selectedBond, setSelectedBond] = useState<BondForCalc | null>(null)
 
   const handleSoberanoClick = useCallback((row: SoberanoUSD) => {
+    const tirRaw = parseFloat(row.tir)
+    const dmRaw  = parseFloat(row.dm)
     setSelectedBond({
-      ticker: row.ticker,
-      tipo: "SOBERANO USD",
-      vto: row.vto,
-      dtm: Math.round((new Date(row.vto.split("/").reverse().join("-")).getTime() - Date.now()) / (1000 * 60 * 60 * 24)),
+      ticker:     row.ticker,
+      tipo:       "SOBERANO USD",
+      vto:        row.vto,
+      dtm:        Math.round((new Date(row.vto.split("/").reverse().join("-")).getTime() - Date.now()) / (1000 * 60 * 60 * 24)),
       precioActual: parsePrice(row.precio),
-      vf: 100,
+      vf:         100,
+      tirActual:  !isNaN(tirRaw) ? tirRaw / 100 : undefined,
+      dmActual:   !isNaN(dmRaw)  ? dmRaw        : undefined,
     })
     setCalcOpen(true)
   }, [])
 
   const handleBoprealClick = useCallback((row: Bopreal) => {
+    const tirRaw = parseFloat(row.tir)
+    const dmRaw  = parseFloat(row.dm)
     setSelectedBond({
-      ticker: row.ticker,
-      tipo: "BOPREAL",
-      vto: row.vto,
-      dtm: row.dtm,
+      ticker:     row.ticker,
+      tipo:       "BOPREAL",
+      vto:        row.vto,
+      dtm:        row.dtm,
       precioActual: parsePrice(row.precio),
-      vf: 100,
+      vf:         100,
+      tirActual:  !isNaN(tirRaw) ? tirRaw / 100 : undefined,
+      dmActual:   !isNaN(dmRaw)  ? dmRaw        : undefined,
     })
     setCalcOpen(true)
   }, [])

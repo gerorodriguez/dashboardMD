@@ -42,6 +42,8 @@ export function ObligacionesNegociablesTab({ onNYData, onArgData, rawOnNY, rawOn
   const [selectedBond, setSelectedBond] = useState<BondForCalc | null>(null)
 
   const handleClick = useCallback((row: ObligacionNegociable) => {
+    const tirRaw = parseFloat(row.tir)
+    const dmRaw  = parseFloat(row.dm)
     setSelectedBond({
       ticker:       row.ticker,
       tipo:         `ON ${row.empresa}`,
@@ -52,6 +54,8 @@ export function ObligacionesNegociablesTab({ onNYData, onArgData, rawOnNY, rawOn
       ),
       precioActual: parsePrice(row.precio),
       vf:           100,
+      tirActual:    !isNaN(tirRaw) ? tirRaw / 100 : undefined,
+      dmActual:     !isNaN(dmRaw)  ? dmRaw        : undefined,
     })
     setCalcOpen(true)
   }, [])
