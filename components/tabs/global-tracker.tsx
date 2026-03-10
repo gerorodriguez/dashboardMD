@@ -103,10 +103,17 @@ export function GlobalTrackerTab({ data }: GlobalTrackerTabProps) {
           </div>
         </div>
         <div className="flex items-center gap-3 shrink-0">
-          <span className="inline-flex items-center gap-1.5 rounded bg-amber-100 dark:bg-amber-900/30 px-2.5 py-1 text-xs font-medium text-amber-800 dark:text-amber-400">
-            <Clock className="size-3" />
-            {data.delay_note}
-          </span>
+          {data.is_live ? (
+            <span className="inline-flex items-center gap-1.5 rounded bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-1 text-xs font-medium text-emerald-800 dark:text-emerald-400">
+              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              {data.delay_note}
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 rounded bg-amber-100 dark:bg-amber-900/30 px-2.5 py-1 text-xs font-medium text-amber-800 dark:text-amber-400">
+              <Clock className="size-3" />
+              {data.delay_note}
+            </span>
+          )}
           <span className="text-xs text-muted-foreground">
             {data.as_of}
           </span>

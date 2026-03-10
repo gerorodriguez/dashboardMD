@@ -63,6 +63,7 @@ export interface GlobalTrackerGroup {
 export interface GlobalTrackerData {
   as_of:        string
   last_updated: string
+  is_live:      boolean
   delay_note:   string
   groups:       GlobalTrackerGroup[]
 }
