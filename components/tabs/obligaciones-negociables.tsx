@@ -66,6 +66,7 @@ export function ObligacionesNegociablesTab({ onNYData, onArgData, rawOnNY, rawOn
           data={onNYData}
           getRowKey={(r) => r.ticker}
           onTickerClick={handleClick}
+          maxRows={20}
         />
         <MarketTable
           title="ON Ley Local (Argentina)"
@@ -74,6 +75,7 @@ export function ObligacionesNegociablesTab({ onNYData, onArgData, rawOnNY, rawOn
           data={onArgData}
           getRowKey={(r) => r.ticker}
           onTickerClick={handleClick}
+          maxRows={20}
         />
       </div>
 

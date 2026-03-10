@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react"
 import {
   Table,
   TableBody,
@@ -33,8 +35,39 @@ interface EquityTableProps {
   extraColumns: { key: string; header: string; align?: "left" | "center" | "right" }[]
 }
 
+type SortDir = "asc" | "desc" | null
+
+function parseNum(str: string): number {
+  return parseFloat(String(str).replace(/[^0-9.-]/g, ""))
+}
+
 export function EquityTable({ title, subtitle, columns, data, extraColumns }: EquityTableProps) {
   const allColumns = [...columns, ...extraColumns]
+  const [sortKey, setSortKey] = useState<string | null>(null)
+  const [sortDir, setSortDir] = useState<SortDir>(null)
+
+  function handleSort(key: string) {
+    if (sortKey !== key) {
+      setSortKey(key)
+      setSortDir("desc")
+    } else if (sortDir === "desc") {
+      setSortDir("asc")
+    } else {
+      setSortKey(null)
+      setSortDir(null)
+    }
+  }
+
+  const sortedData = [...data].sort((a, b) => {
+    if (!sortKey || !sortDir) return 0
+    const va = a[sortKey]
+    const vb = b[sortKey]
+    const na = parseNum(String(va))
+    const nb = parseNum(String(vb))
+    const useNum = !isNaN(na) && !isNaN(nb)
+    const cmp = useNum ? na - nb : String(va).localeCompare(String(vb))
+    return sortDir === "asc" ? cmp : -cmp
+  })
 
   return (
     <div className="rounded-lg border border-border bg-card overflow-hidden">
@@ -50,17 +83,26 @@ export function EquityTable({ title, subtitle, columns, data, extraColumns }: Eq
             {allColumns.map((col) => (
               <TableHead
                 key={col.key}
-                className={`text-xs font-semibold uppercase tracking-wider text-primary/80 bg-secondary/30 ${
+                onClick={() => handleSort(col.key)}
+                className={`text-xs font-semibold uppercase tracking-wider text-primary/80 bg-secondary/30 select-none cursor-pointer hover:bg-secondary/60 transition-colors ${
                   col.align === "right" ? "text-right" : col.align === "center" ? "text-center" : "text-left"
                 }`}
               >
-                {col.header}
+                <span className="inline-flex items-center gap-1">
+                  {col.align === "right" && (
+                    <SortIcon colKey={col.key} sortKey={sortKey} sortDir={sortDir} />
+                  )}
+                  {col.header}
+                  {col.align !== "right" && (
+                    <SortIcon colKey={col.key} sortKey={sortKey} sortDir={sortDir} />
+                  )}
+                </span>
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((row) => (
+          {sortedData.map((row) => (
             <TableRow key={row.ticker} className="border-border/50 even:bg-secondary/20 hover:bg-secondary/40">
               {allColumns.map((col) => {
                 if (col.key === "ticker") {
@@ -114,4 +156,10 @@ export function EquityTable({ title, subtitle, columns, data, extraColumns }: Eq
       </Table>
     </div>
   )
+}
+
+function SortIcon({ colKey, sortKey, sortDir }: { colKey: string; sortKey: string | null; sortDir: SortDir }) {
+  if (sortKey !== colKey) return <ChevronsUpDown className="size-3 opacity-40" />
+  if (sortDir === "asc") return <ChevronUp className="size-3 opacity-80" />
+  return <ChevronDown className="size-3 opacity-80" />
 }
