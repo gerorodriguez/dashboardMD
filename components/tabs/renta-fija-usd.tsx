@@ -3,7 +3,9 @@
 import { useState, useCallback } from "react"
 import { MarketTable, type ColumnDef } from "@/components/market-table"
 import { RateCalculator } from "@/components/rate-calculator"
+import { BondYieldCurve } from "@/components/bond-yield-curve"
 import type { SoberanoUSD, Bopreal } from "@/lib/types"
+import type { BondItem } from "@/lib/api-client"
 
 function parsePrice(str: string): number {
   return parseFloat(str.replace(/[^0-9.-]/g, ""))
@@ -41,11 +43,13 @@ interface BondForCalc {
 }
 
 interface RentaFijaUSDProps {
-  soberanosData: SoberanoUSD[]
-  boprealesData: Bopreal[]
+  soberanosData:  SoberanoUSD[]
+  boprealesData:  Bopreal[]
+  rawSoberanos:   BondItem[]
+  rawBopreales:   BondItem[]
 }
 
-export function RentaFijaUSDTab({ soberanosData, boprealesData }: RentaFijaUSDProps) {
+export function RentaFijaUSDTab({ soberanosData, boprealesData, rawSoberanos, rawBopreales }: RentaFijaUSDProps) {
   const [calcOpen, setCalcOpen] = useState(false)
   const [selectedBond, setSelectedBond] = useState<BondForCalc | null>(null)
 
@@ -88,6 +92,15 @@ export function RentaFijaUSDTab({ soberanosData, boprealesData }: RentaFijaUSDPr
         data={boprealesData}
         getRowKey={(r) => r.ticker}
         onTickerClick={handleBoprealClick}
+      />
+
+      <BondYieldCurve
+        title="Curva de Rendimientos USD — Soberanos & Bopreales"
+        subtitle="TIR (%) vs Duration modificada (años)"
+        series={[
+          { label: "Soberanos", color: "#3b82f6", items: rawSoberanos },
+          { label: "Bopreales", color: "#f59e0b", items: rawBopreales },
+        ]}
       />
 
       <RateCalculator

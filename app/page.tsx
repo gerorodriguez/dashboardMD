@@ -191,6 +191,8 @@ export default function Dashboard() {
             <RentaFijaUSDTab
               soberanosData={soberanosData}
               boprealesData={boprealesData}
+              rawSoberanos={data.bonds_usd?.sovereigns ?? []}
+              rawBopreales={data.bonds_usd?.bopreales  ?? []}
             />
           </TabsContent>
 
@@ -206,6 +208,8 @@ export default function Dashboard() {
             <ObligacionesNegociablesTab
               onNYData={onNYData}
               onArgData={onArgData}
+              rawOnNY={data.bonds_usd?.on_ny  ?? []}
+              rawOnArg={data.bonds_usd?.on_arg ?? []}
             />
           </TabsContent>
 

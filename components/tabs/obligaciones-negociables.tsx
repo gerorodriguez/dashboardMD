@@ -3,7 +3,9 @@
 import { useState, useCallback } from "react"
 import { MarketTable, type ColumnDef } from "@/components/market-table"
 import { RateCalculator } from "@/components/rate-calculator"
+import { BondYieldCurve } from "@/components/bond-yield-curve"
 import type { ObligacionNegociable } from "@/lib/types"
+import type { BondItem } from "@/lib/api-client"
 
 function parsePrice(str: string): number {
   return parseFloat(str.replace(/[^0-9.-]/g, ""))
@@ -31,9 +33,11 @@ interface BondForCalc {
 interface ObligacionesNegociablesProps {
   onNYData:  ObligacionNegociable[]
   onArgData: ObligacionNegociable[]
+  rawOnNY:   BondItem[]
+  rawOnArg:  BondItem[]
 }
 
-export function ObligacionesNegociablesTab({ onNYData, onArgData }: ObligacionesNegociablesProps) {
+export function ObligacionesNegociablesTab({ onNYData, onArgData, rawOnNY, rawOnArg }: ObligacionesNegociablesProps) {
   const [calcOpen, setCalcOpen] = useState(false)
   const [selectedBond, setSelectedBond] = useState<BondForCalc | null>(null)
 
@@ -72,6 +76,18 @@ export function ObligacionesNegociablesTab({ onNYData, onArgData }: Obligaciones
           onTickerClick={handleClick}
         />
       </div>
+
+      <BondYieldCurve
+        title="Curva de Rendimientos — ON Ley Extranjera (NY)"
+        subtitle="TIR (%) vs Duration modificada (años)"
+        series={[{ label: "ON NY", color: "#06b6d4", items: rawOnNY }]}
+      />
+
+      <BondYieldCurve
+        title="Curva de Rendimientos — ON Ley Local (Argentina)"
+        subtitle="TIR (%) vs Duration modificada (años)"
+        series={[{ label: "ON Arg", color: "#a855f7", items: rawOnArg }]}
+      />
 
       <RateCalculator
         open={calcOpen}
