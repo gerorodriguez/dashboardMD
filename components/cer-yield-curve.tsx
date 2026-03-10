@@ -161,8 +161,8 @@ export function CerYieldCurve({ rawCer }: CerYieldCurveProps) {
               tickFormatter={(v) => `${Number(v).toFixed(1)}y`}
               tick={{ fontSize: 10, fill: "#ffffff" }}
               label={{ value: "Duration (años)", position: "insideBottom", offset: -12, fontSize: 10, fill: "#ffffff" }}
-              tickLine={false}
-              axisLine={{ stroke: "hsl(var(--border))" }}
+              tickLine={{ stroke: "#ffffff", strokeWidth: 1 }}
+              axisLine={{ stroke: "#ffffff", strokeWidth: 1 }}
             />
 
             <YAxis
@@ -171,8 +171,8 @@ export function CerYieldCurve({ rawCer }: CerYieldCurveProps) {
               domain={[yMin, yMax]}
               tickFormatter={(v) => `${Number(v).toFixed(1)}%`}
               tick={{ fontSize: 10, fill: "#ffffff" }}
-              tickLine={false}
-              axisLine={{ stroke: "hsl(var(--border))" }}
+              tickLine={{ stroke: "#ffffff", strokeWidth: 1 }}
+              axisLine={{ stroke: "#ffffff", strokeWidth: 1 }}
               width={46}
             />
 
