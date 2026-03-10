@@ -3,7 +3,8 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MarketHeader } from "@/components/market-header"
-import { RentaFijaPesosTab } from "@/components/tabs/renta-fija-pesos"
+import { RentaFijaTasaFijaTab } from "@/components/tabs/renta-fija-tasa-fija"
+import { RentaFijaCERTab } from "@/components/tabs/renta-fija-cer"
 import { RentaFijaUSDTab } from "@/components/tabs/renta-fija-usd"
 import { FuturosDolarTab } from "@/components/tabs/futuros-dolar"
 import { RentaVariableTab } from "@/components/tabs/renta-variable"
@@ -31,7 +32,7 @@ import { Banknote, DollarSign, BarChart3, Building2, Newspaper, CalendarDays, Tr
 
 export default function Dashboard() {
   const { data, status, error, lastUpdated } = useMarketData()
-  const [activeTab, setActiveTab] = useState("renta-fija-pesos")
+  const [activeTab, setActiveTab] = useState("rf-tasa-fija")
 
   if (status === "loading") {
     return (
@@ -116,11 +117,24 @@ export default function Dashboard() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4">
           <TabsList className="mb-4 h-auto w-full justify-start gap-1 bg-secondary/50 p-1 rounded-lg flex-wrap">
             <TabsTrigger
-              value="renta-fija-pesos"
+              value="rf-tasa-fija"
               className="flex items-center gap-2 px-4 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none rounded-md text-muted-foreground"
             >
               <Banknote className="size-4" />
-              <span className="hidden sm:inline">Renta Fija</span> ARS
+              <span className="hidden sm:inline">RF ARS</span>
+              <span className="hidden sm:inline text-primary-foreground/70">—</span>
+              <span className="hidden sm:inline">Tasa Fija</span>
+              <span className="sm:hidden">TF</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="rf-cer"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none rounded-md text-muted-foreground"
+            >
+              <Banknote className="size-4" />
+              <span className="hidden sm:inline">RF ARS</span>
+              <span className="hidden sm:inline text-primary-foreground/70">—</span>
+              <span className="hidden sm:inline">CER</span>
+              <span className="sm:hidden">CER</span>
             </TabsTrigger>
             <TabsTrigger
               value="renta-fija-usd"
@@ -154,17 +168,22 @@ export default function Dashboard() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="renta-fija-pesos">
-            <RentaFijaPesosTab
+          <TabsContent value="rf-tasa-fija">
+            <RentaFijaTasaFijaTab
               lecapData={lecapData}
               boncapData={boncapData}
+              rawBonds={[...(data.bonds_pesos?.lecap ?? []), ...(data.bonds_pesos?.boncap ?? [])]}
+              tcEntradaDefault={data.fx_rates?.mep ?? 1500}
+            />
+          </TabsContent>
+
+          <TabsContent value="rf-cer">
+            <RentaFijaCERTab
               cerData={cerData}
               caucionData={caucionData}
               caucionUSDData={caucionUSDData}
               cerIndex={headerData.cerIndex}
-              rawBonds={[...(data.bonds_pesos?.lecap ?? []), ...(data.bonds_pesos?.boncap ?? [])]}
               rawCer={data.bonds_pesos?.cer ?? []}
-              tcEntradaDefault={data.fx_rates?.mep ?? 1500}
             />
           </TabsContent>
 
