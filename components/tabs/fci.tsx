@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { fetchFci, type FciItem } from "@/lib/api-client"
 import { mapFci } from "@/lib/data-mappers"
 import type { FciRow } from "@/lib/types"
+import { FciDetailModal } from "@/components/fci-detail-modal"
 
 const PAGE_SIZE = 50
 
@@ -120,6 +121,7 @@ function FilterSelect({
 // ─── Componente principal ─────────────────────────────────────────────────────
 
 export function FCITab() {
+  const [selectedFund, setSelectedFund] = useState<FciItem | null>(null)
   const [rawData, setRawData]   = useState<FciItem[]>([])
   const [loading, setLoading]   = useState(true)
   const [error, setError]       = useState<string | null>(null)
@@ -266,7 +268,13 @@ export function FCITab() {
             </thead>
             <tbody className="divide-y divide-border/30">
               {paginated.map((f, i) => (
-                <tr key={i} className="hover:bg-secondary/20 transition-colors">
+                <tr
+                  key={i}
+                  className="hover:bg-secondary/20 transition-colors cursor-pointer"
+                  onClick={() => setSelectedFund(rawData.find((r) =>
+                    (r.clase || r.nombre) === (f.clase || f.nombre) && r.gestora === f.gestora
+                  ) ?? null)}
+                >
                   <td className="sticky left-0 z-10 bg-card px-3 py-2 hover:bg-secondary/20">
                     <div
                       className="font-medium text-foreground text-xs leading-tight truncate max-w-[230px]"
@@ -325,6 +333,9 @@ export function FCITab() {
           </button>
         </div>
       )}
+
+      {/* ── Modal detalle ── */}
+      <FciDetailModal fund={selectedFund} onClose={() => setSelectedFund(null)} />
     </div>
   )
 }

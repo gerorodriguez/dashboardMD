@@ -219,15 +219,45 @@ export async function fetchCalendar(): Promise<CalendarEvent[]> {
 
 // ─── FCI ─────────────────────────────────────────────────────────────────────
 
+export interface FciRendPeriod {
+  periodo:     string
+  rendimiento: number | null
+  tna:         number | null
+  fecha:       string
+}
+
+export interface FciCartera {
+  nombre: string
+  pct:    number | null
+}
+
+export interface FciCalificacion {
+  nota:         string
+  calificadora: string
+  fecha:        string
+}
+
+export interface FciHonorarios {
+  gastos_gestion:          number | null
+  comision_ingreso:        number | null
+  comision_rescate:        number | null
+  honorarios_exito:        string | null
+  minimo_inversion:        number | null
+  hon_admin_gerente:       number | null
+  hon_admin_depositaria:   number | null
+  comision_transferencia:  number | null
+}
+
 export interface FciItem {
-  nombre:     string
-  clase:      string
-  gestora:    string
-  moneda:     string
-  tipo_renta: string
-  vcp:        number | null
-  patrimonio: number | null
-  fecha:      string
+  nombre:      string
+  clase:       string
+  gestora:     string
+  gestora_full: string
+  moneda:      string
+  tipo_renta:  string
+  vcp:         number | null
+  patrimonio:  number | null
+  fecha:       string
   d1:  number | null
   m1:  number | null
   ytd: number | null
@@ -238,6 +268,20 @@ export interface FciItem {
   ym2: number | null
   ym3: number | null
   ym4: number | null
+  // Modal enriched fields
+  rendimientos_full: FciRendPeriod[]
+  carteras:          FciCartera[]
+  calificacion:      FciCalificacion | null
+  honorarios:        FciHonorarios
+  objetivo:          string
+  horizonte:         string
+  duracion:          string
+  depositaria:       string
+  inicio:            string
+  dias_liquidacion:  number | null
+  bloomberg:         string
+  isin:              string
+  inversion_minima:  number | null
 }
 
 export async function fetchFci(): Promise<FciItem[]> {
