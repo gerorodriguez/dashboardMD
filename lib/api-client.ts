@@ -216,3 +216,35 @@ export async function fetchCalendar(): Promise<CalendarEvent[]> {
   if (!res.ok) throw new Error(`GET /api/calendar falló con ${res.status}`)
   return res.json()
 }
+
+// ─── FCI ─────────────────────────────────────────────────────────────────────
+
+export interface FciItem {
+  nombre:     string
+  clase:      string
+  gestora:    string
+  moneda:     string
+  tipo_renta: string
+  vcp:        number | null
+  patrimonio: number | null
+  fecha:      string
+  d1:  number | null
+  m1:  number | null
+  ytd: number | null
+  y1:  number | null
+  y3:  number | null
+  y5:  number | null
+  ym1: number | null
+  ym2: number | null
+  ym3: number | null
+  ym4: number | null
+}
+
+export async function fetchFci(): Promise<FciItem[]> {
+  const res = await fetch(`${API_BASE}/api/fci`, {
+    cache: 'no-store',
+    headers: { Accept: 'application/json' },
+  })
+  if (!res.ok) throw new Error(`GET /api/fci falló con ${res.status}`)
+  return res.json()
+}

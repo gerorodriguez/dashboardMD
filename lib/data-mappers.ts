@@ -7,13 +7,13 @@
  * no debe hacer formateo manual.
  */
 
-import type { SnapshotResponse, BondItem, EquityItem, FutureContract, CaucionData } from './api-client'
+import type { SnapshotResponse, BondItem, EquityItem, FutureContract, CaucionData, FciItem } from './api-client'
 import type {
   MarketData, TipoCambio, SinteticoUSD, BrechaFX,
   LecapBoncap, BonoCER, FuturoDolar, Caucion,
   SoberanoUSD, Bopreal, ObligacionNegociable,
   AccionArgentina, Cedear, ETFArgentino,
-  NewsItem, NewsData,
+  NewsItem, NewsData, FciRow,
 } from './types'
 
 // ─── Formateadores ───────────────────────────────────────────────────────────
@@ -253,6 +253,35 @@ export function mapETFs(items: EquityItem[]): ETFArgentino[] {
     variacionPositiva: (e.variacion ?? 0) >= 0,
     volumen:           vol(e.ev),
     patrimonio:        '–',
+  }))
+}
+
+export function mapFci(items: FciItem[]): FciRow[] {
+  const pct = (v: number | null): string =>
+    v != null ? `${v >= 0 ? '+' : ''}${v.toFixed(2)}%` : '–'
+  const pos = (v: number | null): boolean => (v ?? 0) >= 0
+
+  return items.map((f) => ({
+    nombre:    f.nombre,
+    clase:     f.clase,
+    gestora:   f.gestora,
+    moneda:    f.moneda,
+    tipoRenta: f.tipo_renta,
+    vcp:       f.vcp != null ? f.vcp.toLocaleString('es-AR', { minimumFractionDigits: 4, maximumFractionDigits: 6 }) : '–',
+    patrimonio: f.patrimonio != null
+      ? `${f.moneda === 'USD' ? 'USD' : '$'} ${(f.patrimonio / 1_000_000).toFixed(1)}M`
+      : '–',
+    fecha: f.fecha,
+    d1:  pct(f.d1),  d1Pos:  pos(f.d1),
+    m1:  pct(f.m1),  m1Pos:  pos(f.m1),
+    ytd: pct(f.ytd), ytdPos: pos(f.ytd),
+    y1:  pct(f.y1),  y1Pos:  pos(f.y1),
+    y3:  pct(f.y3),  y3Pos:  pos(f.y3),
+    y5:  pct(f.y5),  y5Pos:  pos(f.y5),
+    ym1: pct(f.ym1), ym1Pos: pos(f.ym1),
+    ym2: pct(f.ym2), ym2Pos: pos(f.ym2),
+    ym3: pct(f.ym3), ym3Pos: pos(f.ym3),
+    ym4: pct(f.ym4), ym4Pos: pos(f.ym4),
   }))
 }
 

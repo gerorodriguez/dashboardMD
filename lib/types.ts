@@ -93,6 +93,28 @@ export interface ObligacionNegociable {
   tirHighlighted?: boolean
 }
 
+// FCI — Fondos Comunes de Inversión
+export interface FciRow {
+  nombre:    string
+  clase:     string
+  gestora:   string
+  moneda:    string
+  tipoRenta: string
+  vcp:       string
+  patrimonio: string
+  fecha:     string
+  d1:  string; d1Pos:  boolean
+  m1:  string; m1Pos:  boolean
+  ytd: string; ytdPos: boolean
+  y1:  string; y1Pos:  boolean
+  y3:  string; y3Pos:  boolean
+  y5:  string; y5Pos:  boolean
+  ym1: string; ym1Pos: boolean
+  ym2: string; ym2Pos: boolean
+  ym3: string; ym3Pos: boolean
+  ym4: string; ym4Pos: boolean
+}
+
 // CEDEARs
 export interface Cedear {
   ticker: string

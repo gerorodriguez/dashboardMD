@@ -12,6 +12,7 @@ import { ObligacionesNegociablesTab } from "@/components/tabs/obligaciones-negoc
 import { NoticiasTab } from "@/components/tabs/noticias"
 import { CalendarioTab } from "@/components/tabs/calendario"
 import { GlobalTrackerTab } from "@/components/tabs/global-tracker"
+import { FCITab } from "@/components/tabs/fci"
 import { useMarketData } from "@/hooks/use-market-data"
 import {
   mapMarketHeader,
@@ -28,7 +29,7 @@ import {
   mapETFs,
   mapNews,
 } from "@/lib/data-mappers"
-import { Banknote, DollarSign, BarChart3, Building2, Newspaper, CalendarDays, TrendingUp, Loader2, WifiOff, Globe } from "lucide-react"
+import { Banknote, DollarSign, BarChart3, Building2, Newspaper, CalendarDays, TrendingUp, Loader2, WifiOff, Globe, PieChart } from "lucide-react"
 
 export default function Dashboard() {
   const { data, status, error, lastUpdated } = useMarketData()
@@ -166,6 +167,13 @@ export default function Dashboard() {
               <TrendingUp className="size-4" />
               <span className="hidden sm:inline">Futuros</span> $
             </TabsTrigger>
+            <TabsTrigger
+              value="fci"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none rounded-md text-muted-foreground"
+            >
+              <PieChart className="size-4" />
+              FCI
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="rf-tasa-fija">
@@ -219,6 +227,10 @@ export default function Dashboard() {
               sinteticosData={sinteticosData}
               dolarSpot={headerData.dolarSpot}
             />
+          </TabsContent>
+
+          <TabsContent value="fci">
+            <FCITab />
           </TabsContent>
 
           <TabsContent value="global-tracker">
