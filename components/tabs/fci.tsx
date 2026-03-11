@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { Loader2, Search, WifiOff } from "lucide-react"
+import { Loader2, Search, WifiOff, ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { fetchFci, type FciItem } from "@/lib/api-client"
 import { mapFci } from "@/lib/data-mappers"
@@ -9,7 +9,70 @@ import type { FciRow } from "@/lib/types"
 
 const PAGE_SIZE = 50
 
+type SortKey = keyof Pick<
+  FciRow,
+  'clase' | 'gestora' | 'moneda' | 'tipoRenta' | 'vcp' |
+  'd1' | 'm1' | 'ytd' | 'y1' | 'y3' | 'y5' | 'ym1' | 'ym2' | 'ym3' | 'ym4'
+>
+type SortDir = 'asc' | 'desc'
+
+// Columns that sort numerically (parse the formatted % string)
+const NUMERIC_COLS = new Set<SortKey>(['vcp', 'd1', 'm1', 'ytd', 'y1', 'y3', 'y5', 'ym1', 'ym2', 'ym3', 'ym4'])
+
+function numericVal(str: string): number {
+  if (str === '–') return -Infinity
+  return parseFloat(str.replace('%', '').replace(',', '.')) ?? -Infinity
+}
+
+function sortRows(rows: FciRow[], key: SortKey, dir: SortDir): FciRow[] {
+  return [...rows].sort((a, b) => {
+    let cmp = 0
+    if (NUMERIC_COLS.has(key)) {
+      cmp = numericVal(a[key] as string) - numericVal(b[key] as string)
+    } else {
+      cmp = (a[key] as string).localeCompare(b[key] as string, 'es', { sensitivity: 'base' })
+    }
+    return dir === 'asc' ? cmp : -cmp
+  })
+}
+
 // ─── Sub-componentes ──────────────────────────────────────────────────────────
+
+function SortIcon({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey | null; sortDir: SortDir }) {
+  if (sortKey !== col) return <ChevronsUpDown className="size-3 opacity-30 shrink-0" />
+  return sortDir === 'asc'
+    ? <ChevronUp   className="size-3 text-primary shrink-0" />
+    : <ChevronDown className="size-3 text-primary shrink-0" />
+}
+
+function SortableTh({
+  col, label, align = 'right', sticky = false, minW,
+  sortKey, sortDir, onSort,
+}: {
+  col: SortKey; label: string; align?: 'left' | 'right'; sticky?: boolean
+  minW?: string; sortKey: SortKey | null; sortDir: SortDir
+  onSort: (col: SortKey) => void
+}) {
+  const isActive = sortKey === col
+  return (
+    <th
+      onClick={() => onSort(col)}
+      className={`
+        px-2 py-2.5 text-xs font-semibold cursor-pointer select-none
+        transition-colors hover:text-foreground
+        ${isActive ? 'text-primary' : 'text-muted-foreground'}
+        ${align === 'right' ? 'text-right' : 'text-left'}
+        ${sticky ? 'sticky left-0 z-10 bg-secondary/80' : ''}
+        ${minW ? minW : ''}
+      `}
+    >
+      <span className={`inline-flex items-center gap-1 ${align === 'right' ? 'flex-row-reverse' : ''}`}>
+        {label}
+        <SortIcon col={col} sortKey={sortKey} sortDir={sortDir} />
+      </span>
+    </th>
+  )
+}
 
 function RendCell({ value, positive }: { value: string; positive: boolean }) {
   const isDash = value === '–'
@@ -67,6 +130,9 @@ export function FCITab() {
   const [filterTipo,    setFilterTipo]    = useState("Todos")
   const [page, setPage] = useState(1)
 
+  const [sortKey, setSortKey] = useState<SortKey | null>(null)
+  const [sortDir, setSortDir] = useState<SortDir>('desc')
+
   useEffect(() => {
     fetchFci()
       .then(setRawData)
@@ -102,10 +168,29 @@ export function FCITab() {
     return result
   }, [fciData, filterGestora, filterMoneda, filterTipo, search])
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
-  const paginated  = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  const sorted = useMemo(() =>
+    sortKey ? sortRows(filtered, sortKey, sortDir) : filtered,
+    [filtered, sortKey, sortDir])
+
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE))
+  const paginated  = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   const resetPage = (fn: (v: string) => void) => (v: string) => { fn(v); setPage(1) }
+
+  const handleSort = (col: SortKey) => {
+    if (sortKey === col) {
+      setSortDir((d) => d === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortKey(col)
+      setSortDir(NUMERIC_COLS.has(col) ? 'desc' : 'asc')
+    }
+    setPage(1)
+  }
+
+  const th = (col: SortKey, label: string, align: 'left' | 'right' = 'right', minW?: string, sticky = false) => (
+    <SortableTh col={col} label={label} align={align} sticky={sticky} minW={minW}
+      sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+  )
 
   if (loading) {
     return (
@@ -124,7 +209,7 @@ export function FCITab() {
     )
   }
 
-  const dataDate = filtered[0]?.fecha ?? fciData[0]?.fecha ?? ''
+  const dataDate = sorted[0]?.fecha ?? fciData[0]?.fecha ?? ''
 
   return (
     <div className="flex flex-col gap-4">
@@ -141,13 +226,18 @@ export function FCITab() {
               className="pl-8 h-8 text-sm bg-secondary/50"
             />
           </div>
-          <FilterSelect label="Gestora"  value={filterGestora} options={gestoras} onChange={resetPage(setFilterGestora)} />
-          <FilterSelect label="Moneda"   value={filterMoneda}  options={monedas}  onChange={resetPage(setFilterMoneda)}  />
-          <FilterSelect label="Tipo"     value={filterTipo}    options={tipos}    onChange={resetPage(setFilterTipo)}    />
+          <FilterSelect label="Gestora" value={filterGestora} options={gestoras} onChange={resetPage(setFilterGestora)} />
+          <FilterSelect label="Moneda"  value={filterMoneda}  options={monedas}  onChange={resetPage(setFilterMoneda)}  />
+          <FilterSelect label="Tipo"    value={filterTipo}    options={tipos}    onChange={resetPage(setFilterTipo)}    />
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
-          {filtered.length} de {fciData.length} fondos
+          {sorted.length} de {fciData.length} fondos
           {dataDate && <span className="ml-2 opacity-60">— Datos al {dataDate}</span>}
+          {sortKey && (
+            <span className="ml-2 opacity-60">
+              · Ordenado por <span className="text-primary">{sortKey}</span> {sortDir === 'asc' ? '↑' : '↓'}
+            </span>
+          )}
         </p>
       </div>
 
@@ -156,22 +246,22 @@ export function FCITab() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border bg-secondary/30 text-xs font-semibold text-muted-foreground">
-                <th className="sticky left-0 z-10 bg-secondary/80 px-3 py-2.5 text-left min-w-[240px]">Fondo</th>
-                <th className="px-2 py-2.5 text-left min-w-[110px]">Gestora</th>
-                <th className="px-2 py-2.5 text-left">Moneda</th>
-                <th className="px-2 py-2.5 text-left min-w-[110px]">Tipo</th>
-                <th className="px-2 py-2.5 text-right min-w-[80px]">VCP</th>
-                <th className="px-2 py-2.5 text-right">1D</th>
-                <th className="px-2 py-2.5 text-right">1M</th>
-                <th className="px-2 py-2.5 text-right">YTD</th>
-                <th className="px-2 py-2.5 text-right">1A</th>
-                <th className="px-2 py-2.5 text-right">3A</th>
-                <th className="px-2 py-2.5 text-right">5A</th>
-                <th className="px-2 py-2.5 text-right">2024</th>
-                <th className="px-2 py-2.5 text-right">2023</th>
-                <th className="px-2 py-2.5 text-right">2022</th>
-                <th className="px-2 py-2.5 text-right">2021</th>
+              <tr className="border-b border-border bg-secondary/30">
+                {th('clase',     'Fondo',   'left',  'min-w-[240px]', true)}
+                {th('gestora',   'Gestora', 'left',  'min-w-[110px]')}
+                {th('moneda',    'Moneda',  'left')}
+                {th('tipoRenta', 'Tipo',    'left',  'min-w-[110px]')}
+                {th('vcp',       'VCP',     'right', 'min-w-[80px]')}
+                {th('d1',  '1D')}
+                {th('m1',  '1M')}
+                {th('ytd', 'YTD')}
+                {th('y1',  '1A')}
+                {th('y3',  '3A')}
+                {th('y5',  '5A')}
+                {th('ym1', '2024')}
+                {th('ym2', '2023')}
+                {th('ym3', '2022')}
+                {th('ym4', '2021')}
               </tr>
             </thead>
             <tbody className="divide-y divide-border/30">
@@ -224,7 +314,7 @@ export function FCITab() {
             ← Anterior
           </button>
           <span className="text-xs text-muted-foreground">
-            Página {page} / {totalPages} · {filtered.length} fondos
+            Página {page} / {totalPages} · {sorted.length} fondos
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
